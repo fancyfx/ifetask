@@ -1,0 +1,89 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+div {
+    border: 1px solid #999;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #fff;
+}
+.tree {
+    width: 80%;
+    height: 300px;
+    margin: 50px auto;
+
+}
+.rigth {
+    width: 45%;
+    height: 200px;
+
+}
+.left {
+    width: 45%;
+    height: 200px;
+}
+.left-1-l {
+    width: 40%;
+    height: 100px;
+
+}
+.left-1-r {
+    width: 40%;
+    height: 100px;
+}
+.left-2-l-l {
+    width: 25%;
+    height: 40px;
+}
+.left-2-l-r {
+    width: 25%;
+    height: 40px;
+}
+.left-2-r-l {
+    width: 25%;
+    height: 40px;
+}
+.left-2-r-r {
+    width: 25%;
+    height: 40px;
+}
+.rigth-1-l {
+    width: 40%;
+    height: 100px;
+}
+.rigth-1-r {
+    width: 40%;
+    height: 100px;
+}
+.rigth-2-l-l {
+    width: 25%;
+    height: 40px;
+}
+.rigth-2-l-r {
+    width: 25%;
+    height: 40px;
+}
+.rigth-2-r-l {
+    width: 25%;
+    height: 40px;
+}
+.rigth-2-r-r {
+    width: 25%;
+    height: 40px;
+}
+.kz {
+    width: 500px;
+    height: 20px;
+    margin: 20px auto;
+    border: none;
+}
+.kz button {
+    width: 100px;
+}

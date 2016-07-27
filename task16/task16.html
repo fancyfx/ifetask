@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>任务十六：零基础JavaScript编码（四）</title>
+	<style type="text/css">
+		.verification {
+			font-size: 12px;
+			color: #f00;
+		}
+
+		#aqi-table td {
+			width: 100px;
+			border: 1px solid #000;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<label>城市名称：
+			<input id="aqi-city-input" type="text"> <span class="verification" id="aqi-city-verification"></span> </label>
+		<br>
+		<label>空气质量指数：
+			<input id="aqi-value-input" type="text"> <span class="verification" id="aqi-value-verification"></span></label>
+		<br>
+		<button id="add-btn">确认添加</button>
+	</div>
+	<table id="aqi-table">
+		<tr>
+			<td>城市</td>
+			<td>空气质量</td>
+			<td>操作</td>
+		</tr>
+	</table>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>

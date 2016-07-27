@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务十七：零基础JavaScript编码（五）</title>
+  <style type="text/css">
+     .aqi-chart-wrap{
+       margin: 30px auto;
+       height: 400px;
+       overflow: auto;
+       display: flex;
+       justify-content: center;
+       align-items: flex-end;
+     }
+    .aqi-chart-wrap span{
+        display: block;
+        float: left;
+    }
+    .day{
+        width: 10px;
+        background-color: #cccc99;
+        margin-left: 5px; 
+    }
+    .week{
+        width: 80px;
+        background-color: #999966;
+        margin-left: 20px; 
+    }
+    .month{
+        width: 200px;
+        background-color: #666633;
+        margin-left: 200px; 
+    }
+  </style>
+</head>
+<body>
+	<fieldset id="form-gra-time">
+    <legend>请选择日期粒度：</legend>
+    <label>日<input name="gra-time" value="day" type="radio"  id="gra-time-day" checked="checked"></label>
+    <label>周<input name="gra-time" value="week" type="radio" id="gra-time-week"></label>
+    <label>月<input name="gra-time" value="month" type="radio" id="gra-time-month"></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>请选择查看的城市：</legend>
+    <select id="city-select">  
+    </select>
+  </fieldset>
+  <div id="clearText">
+  <h2 id="chart-wrap-title">空气质量</h2>
+  <div class="aqi-chart-wrap" id="chart-wrap"></div>
+  </div>
+  
+  <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
