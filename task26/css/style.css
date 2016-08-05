@@ -1,0 +1,42 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+.bg {
+   width: 60%;
+   margin: 10px 20%;
+   font-size: 18px;
+}
+.space{
+  width: 100%;
+  height: 500px;
+  background-color: rgb(42, 41, 42)
+}
+.space span{
+   color: #fff;
+   font-size: 15px;
+   border: 1px solid #f00;
+   margin: 50px;
+   float: left;
+   width: 120px;
+   text-align: center;
+}
+.space span i{
+   font-style:normal;
+}
+.commander{
+  width: 100%;
+  overflow: auto;
+  margin-top: 1%;
+}
+.commander button{
+  margin: 10px;
+  width: 100px;
+}
+.commander fieldset{
+  height: 100%;
+}
+.commander fieldset span{
+   display: block;
+   margin-left: 10px;
+}
