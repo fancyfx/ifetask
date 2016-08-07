@@ -10,8 +10,8 @@ bin-release/
 
 # Executables
 <<<<<<< HEAD
-.DS_Store
-.npm-debug.log
+*.DS_Store
+npm-debug.log
 
 >>>>>>> master
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
