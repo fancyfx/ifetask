@@ -44,12 +44,13 @@ $().ready(function () {
             //  保存创建的飞船对象
             var one = mediator.airships[mediator.airships.length - 1];
             // 添加页面控制区 DOM
-            if (one ) {
-            $(".space").append('<span id= '+ one.id +'>'+ one.id
-            + '号飞船 <br>状态：' + '<i class=stateType>'+one.stateType+'</i>'
-            + '<br>能量：' + '<i class=energy>'+one.energy+'</i>'
-            + ' %<br>太阳能系统：' + '<i class=onAndOff>'+one.onAndOff + '</i></span>');
-            }
+            if (one.id < 5 ) {
+            $(".space").append('<div class="orbit orbit_'+one.id
+            +'" id="airship_'+one.id+'"><div class="airship airship_'+one.id
+            +'" ><span class="bg"></span><p>'+one.id+'号-'+one.energy+'%</p></div></div>');
+          }else {
+            $(".space").append('<div class="orbit orbit_4" id="airship_'+one.id+'"><div class="airship airship_5"><span class="bg"></span><p>'+one.id+'号-'+one.energy+'%</p></div></div>');
+          }
             var $buttonFly = $("<button>飞行</button>");
             $buttonFly.on('click', function(event) {
               event.preventDefault();
@@ -123,7 +124,7 @@ $().ready(function () {
              mediator.airships[i].message(Message);
            }
          }else {
-           alert("消息发送失败");
+           messageLog("消息发送失败");
          }
        }, 1000);
      }
@@ -142,17 +143,17 @@ SetAirship.prototype.fly = function () {
     if (this.energy > 0 ) {
       // 设置飞行状态
       this.stateType = "fly";
-      $("#"+this.id+" .stateType").contents().replaceWith(this.stateType);
+      $("#airship_"+this.id).attr('style', 'animation-play-state:running');
+      messageLog(this.id+"号飞船收到起飞命令");
       // 打开 太阳能充电系统
       if (this.onAndOff === "off") {
          this.onAndOff = "on";
-         $("#"+this.id+" .onAndOff").contents().replaceWith(this.onAndOff);
          this.sunEnergySys();
       }
       // 飞船能量消耗系统
       this.energySys();
     }else {
-      console.log("飞船需要充能无法起飞 当前能量：" + this.energy);
+      messageLog("飞船需要充能无法起飞 当前能量：" + this.energy);
     }
 
 };
@@ -160,7 +161,8 @@ SetAirship.prototype.fly = function () {
 SetAirship.prototype.flyStop = function () {
     if (this.stateType === "stop") return;
     this.stateType = "stop";
-    $("#"+this.id+" .stateType").contents().replaceWith(this.stateType);
+    $("#airship_"+this.id).attr('style', 'animation-play-state:paused');
+    messageLog(this.id+"号飞船收到停机命令");
 };
 // 飞船能量消耗系统 每秒 -5
 SetAirship.prototype.energySys = function () {
@@ -168,24 +170,27 @@ SetAirship.prototype.energySys = function () {
       this.energy -= 5;
     }else {
       this.stateType = "stop";
-      $("#"+this.id+" .stateType").contents().replaceWith(this.stateType);
+        $("#airship_"+this.id).attr('style', 'animation-play-state:paused');
+        messageLog(this.id+"号飞船能源不足，已停机");
     }
 
     if (this.energy > 0 && this.stateType ===  "fly") {
      setTimeout(this.energySys.bind(this), 1000);  // setTimeout的执行函数里面的this 指向windows 这里用bind() 解决这个问题
     }else {
       this.stateType = "stop";
-      $("#"+this.id+" .stateType").contents().replaceWith(this.stateType);
+      $("#airship_"+this.id).attr('style', 'animation-play-state:paused');
     }
 };
 //  飞船太阳能充电系统 每秒 +2
 SetAirship.prototype.sunEnergySys = function () {
     if (this.energy <= 98) {
       this.energy += 2;
-      $("#"+this.id+" .energy").contents().replaceWith(this.energy);
+      $("#airship_"+this.id+" p" ).contents().replaceWith(this.id+"号-"+this.energy+"%");
+      $("#airship_"+this.id+" span" ).attr('style', 'width:'+this.energy+'%');
     }else if(this.energy === 99) {
       this.energy += 1;
-      $("#"+this.id+" .energy").contents().replaceWith(this.energy);
+      $("#airship_"+this.id+" p" ).contents().replaceWith(this.id+"号-"+this.energy+"%");
+      $("#airship_"+this.id+" span" ).attr('style', 'width:'+this.energy+'%');
     }
     if (this.onAndOff === "on") {
     setTimeout(this.sunEnergySys.bind(this), 1000);  // setTimeout的执行函数里面的this 指向windows 这里用bind() 解决这个问题
@@ -196,9 +201,9 @@ SetAirship.prototype.sunEnergySys = function () {
 SetAirship.prototype.destroy = function () {
     this.stateType = "stop"; //停止飞行状态
     this.onAndOff = "off"; // 关闭太阳能系统
-    console.log("飞船：" + this.id + "已启动自毁装置");
+    messageLog("飞船：" + this.id + "已启动自毁装置");
     commander.airshipsNumber.airshipNumArray.push(this.id); // 收回Id
-    $("span").remove("#"+this.id); //删除页面DOM
+    $("div").remove("#airship_"+this.id); //删除页面DOM
     // 删除飞船对象
     for (var i = 0; i < mediator.airships.length; i++) {
       if (mediator.airships[i].id === this.id)
@@ -240,3 +245,15 @@ SetAirship.prototype.message = function (message) {
      this.splice(index, 1);
    }
  };
+
+/**
+ * 添加系统消息日志函数 messageLog
+ *
+ */
+function messageLog(log) {
+    var  now = new Date();
+    var nowDate = now.getFullYear()+"-"+(now.getMonth() + 1)+"-"+now.getDate()
+                  +" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+    var messageLog = log;
+   $(".console .log").append("<span>"+nowDate+" ："+messageLog+"</span>");
+}
