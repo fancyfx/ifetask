@@ -72,6 +72,68 @@ function onclickCreate() {
        });
 }
 
+// 更新数据中心页面dom
+function dcDom(value) {
+
+  var stateType = value.stateType,
+      energy = value.energy,
+      id = value.id,
+      dlSysName,nySysName;
+  // 获取 动力系统和能源系统型号
+  for (var i = 0; i < mediator.airships.length; i++) {
+    if (mediator.airships[i].id === id ) {
+        dlSysName = mediator.airships[i].flyspeed;
+        nySysName = mediator.airships[i].addEnergy;
+    }
+  }
+  // 转换dlSysName 为中文字符串
+  switch (dlSysName) {
+    case 30:
+      dlSysName = "前进号";
+      break;
+    case 50:
+      dlSysName = "奔腾号";
+      break;
+    case 80:
+      dlSysName = "超越号";
+      break;
+  }
+  // 转换nySysName 为中文字符串
+  switch (nySysName) {
+    case 2:
+      nySysName = "劲量型";
+      break;
+    case 3:
+      nySysName = "光能型";
+      break;
+    case 4:
+      nySysName = "永久性";
+      break;
+  }
+  // 转换stateType 为中文字符串
+  switch (stateType) {
+    case "fly":
+      stateType = "飞行中";
+      break;
+    case "stop":
+      stateType = "停止飞行";
+      break;
+    case "destroy":
+      stateType = "已摧毁";
+      break;
+
+  }
+    var avalue = $('.showDc .'+id);
+    if (avalue.length > 0) {
+      $('.showDc .'+id+' .stateType').contents().replaceWith(stateType);
+      $('.showDc .'+id+' .energy').contents().replaceWith(energy +'%');
+    }else{
+      $('.showDc').append('<tr class='+id+'><td>'+id+
+      '号</td><td>'+dlSysName+'</td><td>'+nySysName+'</td><td class= stateType>'+stateType+
+      '</td><td class = energy>'+energy+'%</td></tr>');
+    }
+}
+
 // 获取页面 飞船初始化属性
 function stareValue() {
   var dlValue = $(".launch input[name='dl']:checked").val();
@@ -129,39 +191,44 @@ function stareValue() {
      },
     //  飞行方法
      fly : function (id) {
-         adapter(
+         mediator.seedMessage(adapterNum(
            {
              id:id,
              commond:'fly'
            }
-         );
+         ));
      },
     //  停止方法
      stop : function (id) {
-       adapter(
+       mediator.seedMessage(adapterNum(
          {
            id:id,
            commond:'stop'
          }
-       );
+       ));
      },
     //  摧毁方法
      destroy : function (id) {
-       adapter(
+       mediator.seedMessage(adapterNum(
          {
            id:id,
            commond:'destroy'
          }
-       );
+       ));
+     },
+    //  接受消息方法
+     dc : function (message) {
+       var adapter = adapterJSON(message);
+       dcDom(adapter);
      }
  };
 
 /**
- * 新增信号发射模块 Adapter 把JSON 数据转换为二进制代码
+ * 新增信号发射模块 adapterNum 把JSON 数据转换为二进制代码
  */
-function adapter(adapterNum) {
-      var idNum = adapterNum.id, commondNum;
-      switch (adapterNum.commond) {
+function adapterNum(value) {
+      var idNum, commondNum,messageNum;
+      switch (value.commond) {
         case 'fly':
           commondNum = '0001';
           break;
@@ -172,20 +239,65 @@ function adapter(adapterNum) {
           commondNum = '1100';
           break;
       }
-      var messageNum = idNum +commondNum;
+
       // 补齐二进制编码为8位
-      switch (messageNum.length) {
-        case 5:
-          messageNum = "000" + messageNum;
+      switch (value.id.toString().length) {
+        case 1:
+          idNum = "000" + value.id;
           break;
-        case 6:
-          messageNum = "00" + messageNum;
+        case 2:
+          idNum = "00" + value.id;
           break;
-        case 7:
-          messageNum = "0" + messageNum;
+        case 3:
+          idNum = "0" + value.id;
           break;
       }
-      mediator.seedMessage(messageNum);
+      if (value.energy) {
+        var energyNum ;
+        switch (value.energy.toString().length) {
+          case 1:
+            energyNum = "0000000" + value.energy;
+            break;
+          case 2:
+            energyNum = "000000" + value.energy;
+            break;
+          case 3:
+            energyNum = "00000" + value.energy;
+            break;
+        }
+        messageNum = idNum +commondNum +energyNum;
+      }else {
+        messageNum = idNum +commondNum;
+      }
+      return messageNum;
+
+}
+
+/**
+ * 新增信号发射模块 adapterJSON 把二进制字符串 数据转换为JSON
+ */
+function adapterJSON(value) {
+    var stateTypeV,energyV,idV;
+    idV = parseFloat(value.slice(0, 4));
+    if (value.length === 16) {
+      energyV = parseFloat(value.slice(-8));
+    }
+    switch (value.slice(4,8)) {
+      case "0001":
+        stateTypeV = "fly";
+        break;
+      case "0010":
+        stateTypeV = "stop";
+        break;
+      case "1100":
+        stateTypeV = "destroy";
+        break;
+    }
+    return {
+        stateType:stateTypeV,
+        energy:energyV,
+        id:idV
+    };
 }
  /**
   *
@@ -210,9 +322,14 @@ function adapter(adapterNum) {
 function bus(Message,obj) {
   setTimeout(function (){
     if ( Math.ceil(Math.random()*10) >= 1 ) {
-      for (var i = 0; i < obj.length; i++) {
-        obj[i].message(Message);
+      if (obj) {
+        for (var i = 0; i < obj.length; i++) {
+          obj[i].message(Message);
+        }
+      }else {
+         commander.dc(Message);
       }
+
     }else {
       messageLog("消息发送失败!");
       messageLog("重新发送！");
@@ -236,6 +353,7 @@ function SetAirship(id,speend,addEnergy ,consumeEnergy) {
     this.onAndOff = "off"; // 太阳能系统 控制开关
     this.addEnergy = addEnergy; //能量消耗速度
     this.consumeEnergy = consumeEnergy; //能量增加速度
+    this.flyState();
 }
 // 飞船 飞行方法
 SetAirship.prototype.fly = function () {
@@ -255,6 +373,7 @@ SetAirship.prototype.fly = function () {
       }
       // 飞船能量消耗系统
       this.energySys();
+
     }else {
       messageLog("飞船需要充能无法起飞 当前能量：" + this.energy);
     }
@@ -304,6 +423,7 @@ SetAirship.prototype.sunEnergySys = function () {
 SetAirship.prototype.destroy = function () {
     this.stateType = "stop"; //停止飞行状态
     this.onAndOff = "off"; // 关闭太阳能系统
+    this.stateType = "destroy";
     messageLog("飞船：" + this.id + "已启动自毁装置");
     commander.airshipsNumber.airshipNumArray.push(this.id); // 收回Id
     $("div").remove("#airship_"+this.id); //删除页面DOM
@@ -316,24 +436,36 @@ SetAirship.prototype.destroy = function () {
 
 // 消息识别方法
 SetAirship.prototype.message = function (message) {
-    // 增加二进制数据解析模块
-    var idNum = parseFloat(message.slice(0, 4));
-    if (idNum === this.id) {
-      switch (message.slice(-4)) {
-        case '0001':
+    // 二进制数据解析模块
+    var adapter = adapterJSON(message);
+    if (adapter.id === this.id) {
+      switch (adapter.stateType) {
+        case 'fly':
           this.fly();
           break;
-        case '0010':
+        case 'stop':
           this.flyStop();
           break;
-        case '1100':
+        case 'destroy':
           this.destroy();
           break;
       }
     }
 };
 
+// 定时广播飞行状态
+SetAirship.prototype.flyState = function () {
+    var flyState = {
+      energy:this.energy,
+      id:this.id ,
+      commond:this.stateType
+    };
+    bus(adapterNum(flyState));
+    if (this.stateType !== "destroy") {
+      setTimeout(this.flyState.bind(this), 1000);
+    }
 
+};
 
 /**
  * remove 自定义数组删除函数

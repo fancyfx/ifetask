@@ -1,0 +1,193 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+body{
+  background-color: rgb(42, 41, 42);
+}
+.space{
+  width: 60%;
+  height: 580px;
+  position: absolute;
+  left:50%;
+  top: 50%;
+  margin-left: -27%;
+  margin-top: -200px;
+}
+.space span i{
+   font-style:normal;
+}
+.space .earth{
+  position: absolute;
+  left:50%;
+  top: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+   width: 100px;
+   height: 100px;
+   background-color: rgb(60, 100, 222);
+   border-radius: 50px;
+}
+.space .orbit{
+  position: absolute;
+  left:50%;
+  top: 50%;
+  border-radius: 50%;
+  border:1px solid #fff;
+  -webkit-animation:rond 10s infinite linear forwards;
+          animation:rond 10s infinite linear forwards;
+  -webkit-animation-play-state:paused;
+          animation-play-state:paused;
+}
+@-webkit-keyframes rond {
+  0% {-webkit-transform : rotate(0deg);transform : rotate(0deg);}
+  100% {-webkit-transform : rotate(360deg);transform : rotate(360deg);}
+}
+@keyframes rond {
+  0% {-webkit-transform : rotate(0deg);transform : rotate(0deg);}
+  100% {-webkit-transform : rotate(360deg);transform : rotate(360deg);}
+}
+.space .orbit span{
+  height: 100%;
+  width: 100%;
+  background-color: rgb(235, 116, 95);
+  display: block;
+}
+.space .orbit p{
+  float: left;
+  margin-top: -23px;
+  margin-left: 15px;
+}
+.space .orbit_1{
+  margin-left: -100px;
+  margin-top: -100px;
+   width: 200px;
+   height: 200px;
+}
+.space .orbit_2{
+  margin-left: -150px;
+  margin-top: -150px;
+   width: 300px;
+   height: 300px;
+}
+.space .orbit_3{
+  margin-left: -210px;
+  margin-top: -210px;
+   width: 420px;
+   height: 420px;
+}
+.space .orbit_4{
+  margin-left: -270px;
+  margin-top: -270px;
+   width: 540px;
+   height: 540px;
+}
+.space .orbit .airship{
+   width: 90px;
+   height: 30px;
+   background: #d6caca;
+}
+.space .orbit .airship_2{
+   margin-left: 30px;
+}
+.space .orbit .airship_3{
+   margin-left: 70px;
+}
+.space .orbit .airship_4{
+   margin-left: 110px;
+}
+.space .orbit .airship_5{
+   margin-top: 300px;
+   margin-left: -40px;
+}
+.commander{
+  position: absolute;
+  width: 28%;
+  overflow: auto;
+  color: #fff;
+  border: 1px solid #fff;
+  z-index: 999;
+}
+.commander h2{
+  background-color: rgb(182, 189, 58);
+  text-align: center;
+}
+.commander span{
+    display: block;
+    margin-left: 20px;
+    height: 25px;
+}
+.commander .control button{
+  width: 60px;
+  height: 20px;
+  margin-left: 10px;
+}
+.commander .control{
+  margin-top: 5px;
+}
+.commander .launch{
+   border-bottom: 1px solid #fff;
+}
+.commander .launch button{
+  margin: 5px;
+  width: 80px;
+  height: 20px;
+}
+.commander .launch label{
+  font-size: 14px;
+  margin-left: 10px;
+}
+.commander .launch h4{
+   margin: 5px;
+}
+.console{
+  position: absolute;
+  width: 28%;
+  height: 185px;
+  top: 100%;
+  margin-top: -195px;
+  color: #fff;
+  border: 1px solid #fff;
+
+}
+.console .log{
+  width: 500px;
+  height: 155px;
+  margin-top: 5px;
+  overflow:auto;
+}
+.console h2{
+  background-color: rgb(226, 95, 95);
+  text-align: center;
+}
+.console .log span{
+  display: block;
+  height: : 20px;
+}
+.dc{
+  width: 28%;
+  border: 1px solid #fff;
+  position: absolute;
+  left: 100%;
+  margin-left: -28.5%;
+  color: #fff;
+  overflow: auto;
+  z-index: 999;
+}
+.dc h2{
+
+  background-color: rgb(69, 166, 84);
+  text-align: center;
+}
+.showDc{
+   border-collapse: collapse;
+   width: 100%
+}
+.showDc tr:first-child{
+   background-color: rgb(169, 198, 173);
+}
+.showDc  td{
+   border: 1px solid #fff;
+   height: 25px;
+   text-align: center;
+}
