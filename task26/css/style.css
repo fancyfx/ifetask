@@ -34,8 +34,10 @@ body{
   top: 50%;
   border-radius: 50%;
   border:1px solid #fff;
-  animation:rond 10s infinite linear forwards;
-  animation-play-state:paused;
+  -webkit-animation:rond 10s infinite linear forwards;
+          animation:rond 10s infinite linear forwards;
+  -webkit-animation-play-state:paused;
+          animation-play-state:paused;
 }
 .space .orbit span{
   height: 100%;
@@ -135,7 +137,11 @@ body{
   display: block;
   height: : 20px;
 }
+@-webkit-keyframes rond {
+  0% {-webkit-transform : rotate(0deg);transform : rotate(0deg);}
+  100% {-webkit-transform : rotate(360deg);transform : rotate(360deg);}
+}
 @keyframes rond {
-  0% {transform : rotate(0deg);}
-  100% {transform : rotate(360deg);}
+  0% {-webkit-transform : rotate(0deg);transform : rotate(0deg);}
+  100% {-webkit-transform : rotate(360deg);transform : rotate(360deg);}
 }
