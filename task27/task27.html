@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>任务二十七：行星与飞船（二）</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src = "js/jquery-3.1.0.slim.min.js"></script>
+</head>
+<body>
+  <div class="commander">
+      <h2>控制中心</h2>
+      <div class="launch">
+          <h4>动力系统选择：</h4>
+          <label><input type="radio" name="dl" value="dl1">前进号(速率30px,能耗5%/s)</label>
+          <label><input type="radio" name="dl" value="dl2">奔腾号(速率50px,能耗7%/s)</label>
+          <label><input type="radio" name="dl" value="dl3">超越号(速率80px,能耗9%/s)</label>
+          <br>
+          <h4>能源系统选择：</h4>
+          <label><input type="radio" name="ny" value="ny1">劲量型(补充能源速度2%/s)</label>
+          <label><input type="radio" name="ny" value="ny2">光能型(补充能源速度3%/s)</label>
+          <label><input type="radio" name="ny" value="ny3">永久型(补充能源速度4%/s)</label>
+          <br>
+        <button type="button" name="add">新飞船起飞</button>
+      </div>
+      <div class="control"></div>
+
+  </div>
+  <div class="console">
+    <h2>log</h2>
+    <div class="log">
+
+    </div>
+  </div>
+
+    <div class="space">
+      <div class="earth"></div>
+    </div>
+<script type="text/javascript" src = "js/main.js"></script>
+</body>
+</html>
