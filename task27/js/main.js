@@ -129,7 +129,7 @@ function stareValue() {
      },
     //  飞行方法
      fly : function (id) {
-         commander.adapter(
+         adapter(
            {
              id:id,
              commond:'fly'
@@ -138,7 +138,7 @@ function stareValue() {
      },
     //  停止方法
      stop : function (id) {
-       commander.adapter(
+       adapter(
          {
            id:id,
            commond:'stop'
@@ -147,44 +147,46 @@ function stareValue() {
      },
     //  摧毁方法
      destroy : function (id) {
-       commander.adapter(
+       adapter(
          {
            id:id,
            commond:'destroy'
          }
        );
-     },
-    // 新增信号发射模块 Adapter 把JSON 数据转换为二进制代码
-    adapter: function (adapterNum) {
-        var idNum = adapterNum.id, commondNum;
-        switch (adapterNum.commond) {
-          case 'fly':
-            commondNum = '0001';
-            break;
-          case 'stop':
-            commondNum = '0010';
-            break;
-          case 'destroy':
-            commondNum = '1100';
-            break;
-        }
-        var messageNum = idNum +commondNum;
-        // 补齐二进制编码为8位
-        switch (messageNum.length) {
-          case 5:
-            messageNum = "000" + messageNum;
-            break;
-          case 6:
-            messageNum = "00" + messageNum;
-            break;
-          case 7:
-            messageNum = "0" + messageNum;
-            break;
-        }
-        mediator.seedMessage(messageNum);
-    }
+     }
  };
 
+/**
+ * 新增信号发射模块 Adapter 把JSON 数据转换为二进制代码
+ */
+function adapter(adapterNum) {
+      var idNum = adapterNum.id, commondNum;
+      switch (adapterNum.commond) {
+        case 'fly':
+          commondNum = '0001';
+          break;
+        case 'stop':
+          commondNum = '0010';
+          break;
+        case 'destroy':
+          commondNum = '1100';
+          break;
+      }
+      var messageNum = idNum +commondNum;
+      // 补齐二进制编码为8位
+      switch (messageNum.length) {
+        case 5:
+          messageNum = "000" + messageNum;
+          break;
+        case 6:
+          messageNum = "00" + messageNum;
+          break;
+        case 7:
+          messageNum = "0" + messageNum;
+          break;
+      }
+      mediator.seedMessage(messageNum);
+}
  /**
   *
   *  运用中介者模式 模拟信号发射模式 Mediator
@@ -198,21 +200,26 @@ function stareValue() {
      },
     //  给所有飞船广播消息
      seedMessage : function (Message) {
-      //  修改消息发送介质为 新一代bus
-       setTimeout(function bus() {
-         if ( Math.ceil(Math.random()*10) >= 1 ) {
-           for (var i = 0; i < mediator.airships.length; i++) {
-             mediator.airships[i].message(Message);
-           }
-         }else {
-           messageLog("消息发送失败!");
-           messageLog("重新发送！");
-           bus();
-         }
-       }, 1000);
+       bus(Message,mediator.airships);
      }
  };
 
+/**
+ * 消息发送介质 bus
+ */
+function bus(Message,obj) {
+  setTimeout(function (){
+    if ( Math.ceil(Math.random()*10) >= 1 ) {
+      for (var i = 0; i < obj.length; i++) {
+        obj[i].message(Message);
+      }
+    }else {
+      messageLog("消息发送失败!");
+      messageLog("重新发送！");
+      bus();
+    }
+  }, 1000);
+}
  /**
   *  创建飞船的 的构造函数
   *
