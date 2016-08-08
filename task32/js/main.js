@@ -75,8 +75,15 @@ function createFrom(configVal) {
     type.onblur = function () {
         validator = configVal.testing(type.value);
         span.innerHTML = validator.descVal;
-        type.style.borderColor = "#f00";
-        span.style.color = "#f00";
+        if (validator.charLenBlooVal) {
+          type.style.borderColor = "#2ee461";
+          span.style.color = "#2ee461";
+        }else {
+          type.style.borderColor = "#f00";
+          span.style.color = "#f00";
+        }
+
+
     };
   }
 // 样式
