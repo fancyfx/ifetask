@@ -1,0 +1,50 @@
+*{
+  margin: 0;padding: 0;
+}
+.bg{
+  margin-left: 25%;
+  margin-top: 18%;
+}
+.radio{
+  margin-left: 150px;
+  margin-bottom: 50px;
+}
+.radio input:last-of-type{
+   margin-left: 120px;
+}
+
+.select .city{
+  -webkit-appearance:none;
+     -moz-appearance:none;
+          appearance:none;
+  width: 15%;
+  height:30px;
+  padding-left: 10px;
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+}
+.select .school{
+  -webkit-appearance:none;
+     -moz-appearance:none;
+          appearance:none;
+  width: 20%;
+  height:30px;
+  padding-left: 10px;
+  margin-left: 30px;
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+}
+.select .wh, .sh{
+    display: none;
+}
+.input{
+  display: none;
+}
+.input input{
+   width: 38%;
+   height: 30px;
+}
+.select label, .input label{
+    width: 80px;
+    text-align: right;
+    margin-right: 30px;
+    display: inline-block;
+}
