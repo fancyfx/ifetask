@@ -39,14 +39,14 @@ myButton[1].onclick = function(){
  */
 myButton[2].onclick = function(){
 	if (queueSpan.length) {
-		var varlue = queueSpan[0].innerHTML
+		var varlue = queueSpan[0].innerHTML;
 		queue.removeChild(queueSpan[0]);
 		alert(varlue);
 	} else {
 		alert("页面没有span");
 	}
-	
-}
+
+};
 /**
  * 右侧出 点击事件
  */
@@ -58,8 +58,8 @@ myButton[3].onclick = function(){
 	} else {
 		alert("页面没有span");
 	}
-			
-}
+
+};
 /**
  * 点击删除函数
  */
@@ -67,9 +67,3 @@ function del(obj) {
 	var block = obj;
 	block.parentNode.removeChild(block);
 }
-
-
-
-
-
-
