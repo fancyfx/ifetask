@@ -1,0 +1,33 @@
+*{
+  margin: 0;padding: 0;
+}
+.from{
+    margin: 100px;
+}
+.from label{
+   margin-right: 30px;
+   font-size: 20px;
+   font-weight: bold;
+}
+.from input{
+   width: 40%;
+   height: 40px;
+   border: 1px solid rgb(169, 173, 167);
+   font-size: 16px;
+   padding-left: 10px;
+}
+.from button{
+   margin-left: 20px;
+   height: 44px;
+   width: 100px;
+   background-color: rgb(61, 126, 212);
+   border: none;
+   color: #fff;
+   font-size: 20px;
+}
+.from span{
+   display: block;
+   margin-left: 75px;
+   margin-top: 10px;
+   color: #999;
+}
