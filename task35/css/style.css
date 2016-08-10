@@ -1,0 +1,310 @@
+*{
+  margin: 0;padding: 0;
+}
+#bg{
+  margin-left: 25%;
+  margin-top: 2%;
+  overflow: auto;
+  width: 50%;
+
+}
+#bg h1{
+  margin-bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+#bg .zx{
+  width: 50%;
+  margin: 0 auto;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+  position: relative;
+
+}
+#bg .zx button{
+  width: 80px;
+  height: 20px;
+  cursor:pointer;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+}
+#bg .zx textarea{
+   display: block;
+   margin-top: 10px;
+   border: none;
+   background-color: #000;
+   color: rgb(37, 158, 96);
+   font-size: 18px;
+   width: 100%;
+   height: 150px;
+   padding-left: 30px;
+   resize: none;
+    outline:none;
+    /*position: absolute;
+    top: 10px;
+    left: 0;*/
+}
+#bg .zx textarea::-webkit-scrollbar{
+    display:none;
+}
+#bg .zx #codeLine{
+   display: block;
+   float: left;
+   background-color: #aaa;
+   width: 25px;
+   position: absolute;
+   top: 30px;
+   left: 0;
+   height: 150px;
+   font-size: 18px;
+   /*line-height: 25px;*/
+   color: #fff;
+   text-align: center;
+   overflow: auto;
+   overflow-y: visible;
+}
+#bg .zx #codeLine::-webkit-scrollbar{
+    display:none;
+}
+#bg .zx #codeLine i{
+  display: block;
+  font-style: normal;
+  margin: 3px 0;
+}
+#bg .desc{
+  display: block;
+  font-size: 14px;
+  line-height: 25px;
+  /*margin: 20px auto;*/
+  width: 360px;
+  color: #f00;
+  position: absolute;
+  top:20%;
+  left:4%;
+
+}
+#game{
+  border-collapse: collapse;
+  margin: 20px auto;
+  text-align: center;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+}
+#game td{
+   width: 40px;
+   height: 40px;
+   border: 1px solid #ddd;
+}
+#game tr:last-child td{
+   border-bottom: 2px solid #000;
+}
+#game tr td:last-child{
+    border-right: 2px solid #000;
+}
+#game tr td:first-child{
+   border: none;
+   border-right: 2px solid #000;
+}
+#game tr:first-child td{
+   border: none;
+   border-bottom: 2px solid #000;
+}
+#game tr:first-child td:first-child{
+  border: none;
+  opacity:0;
+}
+#game .pieces{
+  text-align: center;
+  line-height: 40px;
+  display :block;
+  background-color : rgb(231, 74, 74);
+}
+#game .piecesTop {
+  border: none;
+  width :40px;
+  height:25px;
+  border-top: 15px solid rgb(84, 207, 59);
+  /*animation: rotate-left 1s 1 linear forwards;*/
+}
+#game .piecesLeft {
+  border: none;
+  width :25px;
+  height:40px;
+  border-left: 15px solid rgb(84, 207, 59);
+}
+#game .piecesRight {
+  border: none;
+  width :25px;
+  height:40px;
+  border-right: 15px solid rgb(84, 207, 59);
+}
+#game .piecesBottom {
+  border: none;
+  width :40px;
+  height:25px;
+  border-bottom: 15px solid rgb(84, 207, 59);
+}
+#game .pieces .direction{
+  display :block;
+  width :100%;
+  height:30%;
+  background-color : rgb(84, 207, 59);
+}
+
+/*右移*/
+@-webkit-keyframes move-right{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(41px,0);
+            transform:translate(41px,0);
+
+  }
+}
+@keyframes move-right{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(41px,0);
+            transform:translate(41px,0);
+
+  }
+}
+/*左移*/
+@-webkit-keyframes move-left{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(-41px,0);
+            transform:translate(-41px,0);
+  }
+}
+@keyframes move-left{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(-41px,0);
+            transform:translate(-41px,0);
+  }
+}
+/*上移*/
+@-webkit-keyframes move-up{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(0,-41px);
+            transform:translate(0,-41px);
+
+  }
+}
+@keyframes move-up{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(0,-41px);
+            transform:translate(0,-41px);
+
+  }
+}
+/*下移*/
+@-webkit-keyframes move-down{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(0,41px);
+            transform:translate(0,41px);
+  }
+}
+@keyframes move-down{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(0,41px);
+            transform:translate(0,41px);
+  }
+}
+/*向左旋转*/
+@-webkit-keyframes rotate-left{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(-90deg);
+            transform:rotate(-90deg);
+  }
+}
+@keyframes rotate-left{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(-90deg);
+            transform:rotate(-90deg);
+  }
+}
+/*向右旋转*/
+@-webkit-keyframes rotate-right{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(90deg);
+            transform:rotate(90deg);
+  }
+}
+@keyframes rotate-right{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(90deg);
+            transform:rotate(90deg);
+  }
+}
+/*旋转180*/
+@-webkit-keyframes rotate-back{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(180deg);
+            transform:rotate(180deg);
+  }
+}
+@keyframes rotate-back{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(180deg);
+            transform:rotate(180deg);
+  }
+}
