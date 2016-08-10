@@ -6,6 +6,7 @@
   margin-top: 5%;
   overflow: auto;
   width: 50%;
+
 }
 #bg h1{
   margin-bottom: 30px;
@@ -16,22 +17,38 @@
   display: block;
   width: 50%;
   margin: 0 auto;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
 }
 #bg button{
   margin-left: 10px;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
 }
 #bg .desc{
   display: block;
   font-size: 14px;
-  line-height: 20px;
-  margin: 20px auto;
-  width: 300px;
+  line-height: 25px;
+  /*margin: 20px auto;*/
+  width: 360px;
   color: #f00;
+  position: absolute;
+  top:20%;
+  left:4%;
+
 }
 #game{
   border-collapse: collapse;
   margin: 30px auto;
   text-align: center;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
 }
 #game td{
    width: 40px;
@@ -95,67 +112,153 @@
 }
 
 /*右移*/
-@keyframes move-right{
+@-webkit-keyframes move-right{
   0% {
-     transform:translate(0,0);
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
   }
   100% {
-    transform:translate(41px,0);
+    -webkit-transform:translate(41px,0);
+            transform:translate(41px,0);
+
+  }
+}
+@keyframes move-right{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(41px,0);
+            transform:translate(41px,0);
 
   }
 }
 /*左移*/
-@keyframes move-left{
+@-webkit-keyframes move-left{
   0% {
-     transform:translate(0,0);
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
   }
   100% {
-    transform:translate(-41px,0);
+    -webkit-transform:translate(-41px,0);
+            transform:translate(-41px,0);
+  }
+}
+@keyframes move-left{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(-41px,0);
+            transform:translate(-41px,0);
   }
 }
 /*上移*/
-@keyframes move-up{
+@-webkit-keyframes move-up{
   0% {
-     transform:translate(0,0);
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
   }
   100% {
-    transform:translate(0,-41px);
+    -webkit-transform:translate(0,-41px);
+            transform:translate(0,-41px);
+
+  }
+}
+@keyframes move-up{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(0,-41px);
+            transform:translate(0,-41px);
 
   }
 }
 /*下移*/
-@keyframes move-down{
+@-webkit-keyframes move-down{
   0% {
-     transform:translate(0,0);
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
   }
   100% {
-    transform:translate(0,41px);
+    -webkit-transform:translate(0,41px);
+            transform:translate(0,41px);
+  }
+}
+@keyframes move-down{
+  0% {
+     -webkit-transform:translate(0,0);
+             transform:translate(0,0);
+  }
+  100% {
+    -webkit-transform:translate(0,41px);
+            transform:translate(0,41px);
   }
 }
 /*向左旋转*/
-@keyframes rotate-left{
+@-webkit-keyframes rotate-left{
   0% {
-     transform:rotate(0deg);
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
   }
   100% {
-    transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+            transform:rotate(-90deg);
+  }
+}
+@keyframes rotate-left{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(-90deg);
+            transform:rotate(-90deg);
   }
 }
 /*向右旋转*/
-@keyframes rotate-right{
+@-webkit-keyframes rotate-right{
   0% {
-     transform:rotate(0deg);
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
   }
   100% {
-    transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+            transform:rotate(90deg);
+  }
+}
+@keyframes rotate-right{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(90deg);
+            transform:rotate(90deg);
   }
 }
 /*旋转180*/
-@keyframes rotate-back{
+@-webkit-keyframes rotate-back{
   0% {
-     transform:rotate(0deg);
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
   }
   100% {
-    transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+            transform:rotate(180deg);
+  }
+}
+@keyframes rotate-back{
+  0% {
+     -webkit-transform:rotate(0deg);
+             transform:rotate(0deg);
+  }
+  100% {
+    -webkit-transform:rotate(180deg);
+            transform:rotate(180deg);
   }
 }

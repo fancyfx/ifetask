@@ -2,10 +2,7 @@ window.onload = function () {
  addGrid();
  addNodePieces();
 };
-// var startVal = '7,7', //位置
-//     borderValue = 'piecesTop',  //方块方向  piecesTop:上  piecesRight:右 piecesBottom:下 piecesLeft:左
-//     moveVal = 'move-up',  //动画移动方向
-//     onBloo = true; //命令执行状态 防止重复点击
+
 /**
  * 获取页面元素 控制棋子
  */
@@ -22,7 +19,20 @@ window.onload = function () {
       var inputVal = input[0].value;
       switch (inputVal) {
         case "GO":
-          controlPieces();
+          switch (pieces.borderValue) {
+            case 'piecesTop':
+              pieces.moveTop();
+              break;
+            case 'piecesBottom':
+              pieces.moveBottom();
+              break;
+            case 'piecesLeft':
+              pieces.moveLeft();
+              break;
+            case 'piecesRight':
+              pieces.moveRight();
+              break;
+          }
           break;
         case "TUN LEF":
           pieces.rotateLeft();
@@ -32,6 +42,110 @@ window.onload = function () {
           break;
         case "TUN BAC":
           pieces.rotateBack();
+          break;
+        case "TRA LEF":
+          pieces.moveLeft();
+          break;
+        case "TRA RIG":
+          pieces.moveRight();
+          break;
+        case "TRA BOT":
+          pieces.moveBottom();
+          break;
+        case "TRA TOP":
+          pieces.moveTop();
+          break;
+        case "MOV LEF":
+          switch (pieces.borderValue) {
+            case 'piecesTop':
+              pieces.rotateLeft();
+              setTimeout(function () {
+                pieces.moveLeft();
+              },1000);
+              break;
+            case 'piecesBottom':
+              pieces.rotateRight();
+              setTimeout(function () {
+                pieces.moveLeft();
+              },1000);
+              break;
+            case 'piecesRight':
+              pieces.rotateBack();
+              setTimeout(function () {
+                pieces.moveLeft();
+              },1000);
+              break;
+          }
+          pieces.moveLeft();
+          break;
+        case "MOV RIG":
+          switch (pieces.borderValue) {
+            case 'piecesTop':
+              pieces.rotateRight();
+              setTimeout(function () {
+                pieces.moveRight();
+              },1000);
+              break;
+            case 'piecesBottom':
+              pieces.rotateLeft();
+              setTimeout(function () {
+                pieces.moveRight();
+              },1000);
+              break;
+            case 'piecesLeft':
+              pieces.rotateBack();
+              setTimeout(function () {
+                pieces.moveRight();
+              },1000);
+              break;
+          }
+          pieces.moveRight();
+          break;
+        case "MOV BOT":
+          switch (pieces.borderValue) {
+            case 'piecesTop':
+              pieces.rotateBack();
+              setTimeout(function () {
+                pieces.moveBottom();
+              },1000);
+              break;
+            case 'piecesLeft':
+              pieces.rotateLeft();
+              setTimeout(function () {
+                pieces.moveBottom();
+              },1000);
+              break;
+            case 'piecesRight':
+              pieces.rotateRight();
+              setTimeout(function () {
+                pieces.moveBottom();
+              },1000);
+              break;
+          }
+          pieces.moveBottom();
+          break;
+        case "MOV TOP":
+          switch (pieces.borderValue) {
+            case 'piecesLeft':
+              pieces.rotateRight();
+              setTimeout(function () {
+                pieces.moveTop();
+              },1000);
+              break;
+            case 'piecesBottom':
+              pieces.rotateBack();
+              setTimeout(function () {
+                pieces.moveTop();
+              },1000);
+              break;
+            case 'piecesRight':
+              pieces.rotateLeft();
+              setTimeout(function () {
+                pieces.moveTop();
+              },1000);
+              break;
+          }
+          pieces.moveTop();
           break;
       }
     };
@@ -69,27 +183,6 @@ function addGrid() {
         }
 
       }
-    }
-}
-
-/**
- * GO 命令 处理逻辑
- */
-function controlPieces() {
-    var val,sp;
-    switch (pieces.borderValue) {
-      case 'piecesTop':
-        pieces.moveTop();
-        break;
-      case 'piecesBottom':
-        pieces.moveBottom();
-        break;
-      case 'piecesLeft':
-        pieces.moveLeft();
-        break;
-      case 'piecesRight':
-        pieces.moveRight();
-        break;
     }
 }
 
