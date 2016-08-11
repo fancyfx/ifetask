@@ -13,24 +13,72 @@ window.onload = function () {
 
     // 按钮
     var button = div.getElementsByTagName('button');
-    // 按钮点击事件
+    // 指令执行状态
+    var codeRunState = true;
+    // 执行按钮点击事件
     button[0].onclick = function () {
-      // 输入框的值
-      var inputVal = input[0].value;
-      switch (inputVal) {
+      removeError();
+      if (addErrorCodeLine() === 404) {
+        alert("指令有误，请修改后重新执行！");
+      }else {
+        if (codeRunState) {
+          codeRun();
+        }else {
+          alert("指令还未执行完毕，请勿重复点击！");
+        }
+      }
+
+
+    };
+  // 重置按钮点击事件
+  button[1].onclick = function () {
+      codeText.value = '';
+      codeLine.innerHTML = '<i>1</i>';
+  };
+
+/**
+ * 指令执行处理逻辑
+ */
+// 依次执行指令
+function codeRun() {
+    if (!codeText.value) return;
+    var codeVal = codeText.value.split('\n');
+    var codeRunVal = [];
+    // 字符串首尾去空格 并删除空白行
+    for (var i = 0; i < codeVal.length; i++) {
+      if (codeVal[i].trim() !== '') {
+        codeRunVal.push(codeVal[i].trim());
+      }
+    }
+    var num = 0;
+    function interval() {
+        codeRunState = false;
+        codeSelect(codeRunVal[num]);
+        num++;
+        if (num < codeRunVal.length) {
+          setTimeout(interval,3000);
+        }else {
+          codeRunState = true;
+        }
+    }
+    setTimeout(interval,500);
+}
+// 判断执行内容执行相应的操作
+function codeSelect(inputVal) {
+    switch (inputVal) {
         case "GO":
           switch (pieces.borderValue) {
             case 'piecesTop':
-              pieces.moveTop();
+              pieces.tarTop();
               break;
             case 'piecesBottom':
-              pieces.moveBottom();
+              pieces.tarBottom();
               break;
             case 'piecesLeft':
-              pieces.moveLeft();
+              pieces.tarLeft();
               break;
             case 'piecesRight':
-              pieces.moveRight();
+              pieces.tarRight();
               break;
           }
           break;
@@ -44,112 +92,31 @@ window.onload = function () {
           pieces.rotateBack();
           break;
         case "TRA LEF":
-          pieces.moveLeft();
+          pieces.tarLeft();
           break;
         case "TRA RIG":
-          pieces.moveRight();
+          pieces.tarRight();
           break;
         case "TRA BOT":
-          pieces.moveBottom();
+          pieces.tarBottom();
           break;
         case "TRA TOP":
-          pieces.moveTop();
+          pieces.tarTop();
           break;
         case "MOV LEF":
-          switch (pieces.borderValue) {
-            case 'piecesTop':
-              pieces.rotateLeft();
-              setTimeout(function () {
-                pieces.moveLeft();
-              },1000);
-              break;
-            case 'piecesBottom':
-              pieces.rotateRight();
-              setTimeout(function () {
-                pieces.moveLeft();
-              },1000);
-              break;
-            case 'piecesRight':
-              pieces.rotateBack();
-              setTimeout(function () {
-                pieces.moveLeft();
-              },1000);
-              break;
-          }
           pieces.moveLeft();
           break;
         case "MOV RIG":
-          switch (pieces.borderValue) {
-            case 'piecesTop':
-              pieces.rotateRight();
-              setTimeout(function () {
-                pieces.moveRight();
-              },1000);
-              break;
-            case 'piecesBottom':
-              pieces.rotateLeft();
-              setTimeout(function () {
-                pieces.moveRight();
-              },1000);
-              break;
-            case 'piecesLeft':
-              pieces.rotateBack();
-              setTimeout(function () {
-                pieces.moveRight();
-              },1000);
-              break;
-          }
           pieces.moveRight();
           break;
         case "MOV BOT":
-          switch (pieces.borderValue) {
-            case 'piecesTop':
-              pieces.rotateBack();
-              setTimeout(function () {
-                pieces.moveBottom();
-              },1000);
-              break;
-            case 'piecesLeft':
-              pieces.rotateLeft();
-              setTimeout(function () {
-                pieces.moveBottom();
-              },1000);
-              break;
-            case 'piecesRight':
-              pieces.rotateRight();
-              setTimeout(function () {
-                pieces.moveBottom();
-              },1000);
-              break;
-          }
           pieces.moveBottom();
           break;
         case "MOV TOP":
-          switch (pieces.borderValue) {
-            case 'piecesLeft':
-              pieces.rotateRight();
-              setTimeout(function () {
-                pieces.moveTop();
-              },1000);
-              break;
-            case 'piecesBottom':
-              pieces.rotateBack();
-              setTimeout(function () {
-                pieces.moveTop();
-              },1000);
-              break;
-            case 'piecesRight':
-              pieces.rotateLeft();
-              setTimeout(function () {
-                pieces.moveTop();
-              },1000);
-              break;
-          }
           pieces.moveTop();
           break;
       }
-    };
-
+}
 /**
  * 添加棋子页面元素
  */

@@ -13,8 +13,8 @@
   <table id="game"></table>
   <div class="zx">
   <button type="button" name="button">执行</button>
-  <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;">
-    <i>1</i>
+  <button type="button" name="button">重置</button>
+  <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;"><i class="error-hide">1</i>
   </span>
   <textarea name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;"></textarea>
   </div>
@@ -46,8 +46,8 @@
     MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格
   </span>
 </div>
-<script type="text/javascript" src="js/pieces.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/pieces.js"></script>
 <script type="text/javascript" src="js/code.js"></script>
 </body>
 </html>
