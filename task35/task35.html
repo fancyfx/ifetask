@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>任务三十五：听指令的小方块（三）</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="bg">
+  <h1>听指令的小方块</h1>
+  <table id="game"></table>
+  <div class="zx">
+  <button type="button" name="button">执行</button>
+  <button type="button" name="button">重置</button>
+  <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;"><i class="error-hide">1</i>
+  </span>
+  <textarea name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;"></textarea>
+  </div>
+  <span class="desc">
+    指令说明：
+    <br>
+    GO：向箭头的方向前进一格
+    <br>
+    TUN LEF：向左转（逆时针旋转90度）
+    <br>
+    TUN RIG：向右转（顺时针旋转90度）
+    <br>
+    TUN BAC：旋转180度
+    <br>
+    TRA LEF：向屏幕的左侧移动一格，方向不变
+    <br>
+    TRA TOP：向屏幕的上面移动一格，方向不变
+    <br>
+    TRA RIG：向屏幕的右侧移动一格，方向不变
+    <br>
+    TRA BOT：向屏幕的下面移动一格，方向不变
+    <br>
+    MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格
+    <br>
+    MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格
+    <br>
+    MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格
+    <br>
+    MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格
+  </span>
+</div>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/pieces.js"></script>
+<script type="text/javascript" src="js/code.js"></script>
+</body>
+</html>
