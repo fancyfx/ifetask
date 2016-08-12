@@ -2,7 +2,7 @@
  * 棋子对象 定义棋子的属性和方法
  */
 var pieces = {
-      startVal :'7,7',            //位置
+      startVal :'7,5',            //位置
       borderValue : 'piecesRight',  //方块方向  piecesTop:上  piecesRight:右 piecesBottom:下 piecesLeft:左
       onBloo : true   ,            //命令执行状态 防止重复点击
       // 向上移动的方法
@@ -10,7 +10,7 @@ var pieces = {
         var val,sp;
         sp = pieces.startVal.split(",");
         val = parseFloat(sp[0]) - 1;
-        if (val < 0 || !pieces.onBloo) return;
+        if (val < 1 || !pieces.onBloo) return;
            moveAnimation('move-up');
           setTimeout(function () {
             removeNode(pieces.startVal);
@@ -18,7 +18,7 @@ var pieces = {
             // 更新棋子
             addNodePieces();
             pieces.onBloo = true;
-          },1000);
+          },500);
       },
       // 向下移动的方法
       tarBottom : function () {
@@ -33,14 +33,14 @@ var pieces = {
             // 更新棋子
             addNodePieces();
             pieces.onBloo = true;
-          },1000);
+          },500);
       },
       // 向左移动的方法
       tarLeft : function () {
         var val,sp;
         sp = pieces.startVal.split(",");
         val = parseFloat(sp[1]) - 1;
-        if ( val < 0 || !pieces.onBloo) return;
+        if ( val < 1 || !pieces.onBloo) return;
           moveAnimation('move-left');
           setTimeout(function () {
             removeNode(pieces.startVal);
@@ -48,7 +48,7 @@ var pieces = {
             // 更新棋子
             addNodePieces();
             pieces.onBloo = true;
-          },1000);
+          },500);
 
       },
       // 向右移动的方法
@@ -64,7 +64,7 @@ var pieces = {
           // 更新棋子
           addNodePieces();
           pieces.onBloo = true;
-        },1000);
+        },500);
       },
       // 向左旋转
       rotateLeft : function () {
@@ -88,7 +88,7 @@ var pieces = {
             removeNode(pieces.startVal);
             addNodePieces();
             pieces.onBloo = true;
-          }, 1000);
+          }, 500);
       },
       // 向右旋转
       rotateRight : function () {
@@ -112,7 +112,7 @@ var pieces = {
             removeNode(pieces.startVal);
             addNodePieces();
             pieces.onBloo = true;
-          }, 1000);
+          }, 500);
 
       },
       // 旋转180
@@ -137,7 +137,7 @@ var pieces = {
             removeNode(pieces.startVal);
             addNodePieces();
             pieces.onBloo = true;
-          }, 1000);
+          }, 500);
       },
       moveTop:function () {
         switch (pieces.borderValue) {
@@ -145,19 +145,19 @@ var pieces = {
               pieces.rotateRight();
               setTimeout(function () {
                 pieces.tarTop();
-              },1000);
+              },500);
               break;
             case 'piecesBottom':
               pieces.rotateBack();
               setTimeout(function () {
                 pieces.tarTop();
-              },1000);
+              },500);
               break;
             case 'piecesRight':
               pieces.rotateLeft();
               setTimeout(function () {
                 pieces.tarTop();
-              },1000);
+              },500);
               break;
               default:
               pieces.tarTop();
@@ -169,19 +169,19 @@ var pieces = {
               pieces.rotateLeft();
               setTimeout(function () {
                 pieces.tarLeft();
-              },1000);
+              },500);
               break;
             case 'piecesBottom':
               pieces.rotateRight();
               setTimeout(function () {
                 pieces.tarLeft();
-              },1000);
+              },500);
               break;
             case 'piecesRight':
               pieces.rotateBack();
               setTimeout(function () {
                 pieces.tarLeft();
-              },1000);
+              },500);
               break;
               default:
               pieces.tarLeft();
@@ -193,19 +193,19 @@ var pieces = {
              pieces.rotateBack();
              setTimeout(function () {
                pieces.tarBottom();
-             },1000);
+             },500);
              break;
            case 'piecesLeft':
              pieces.rotateLeft();
              setTimeout(function () {
                pieces.tarBottom();
-             },1000);
+             },500);
              break;
            case 'piecesRight':
              pieces.rotateRight();
              setTimeout(function () {
                pieces.tarBottom();
-             },1000);
+             },500);
              break;
              default:
              pieces.tarBottom();
@@ -218,19 +218,19 @@ var pieces = {
               pieces.rotateRight();
               setTimeout(function () {
                 pieces.tarRight();
-              },1000);
+              },500);
               break;
             case 'piecesBottom':
               pieces.rotateLeft();
               setTimeout(function () {
                 pieces.tarRight();
-              },1000);
+              },500);
               break;
             case 'piecesLeft':
               pieces.rotateBack();
               setTimeout(function () {
                 pieces.tarRight();
-              },1000);
+              },500);
               break;
               default:
               pieces.tarRight();

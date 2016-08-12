@@ -15,8 +15,17 @@
   <button type="button" name="button">执行</button>
   <button type="button" name="button">重置</button>
   <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;"><i class="error-hide">1</i>
+    <i class="error-hide">2</i>
+    <i class="error-hide">3</i>
+    <i class="error-hide">4</i>
   </span>
-  <textarea name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;"></textarea>
+  <label>请在下面输入指令：</label>
+  <textarea name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;">
+GO 2
+TUN LEF
+TRA LEF 3
+MOV BOT 4
+</textarea>
   </div>
   <span class="desc">
     指令说明：
@@ -44,6 +53,11 @@
     MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格
     <br>
     MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格
+    <strong>注意：</strong><br>
+    GO TAR MOV 指令可以带参数 例：GO 1 <br>
+    参数只能是1~9的正整数 <br>
+    指令中间必须有一个空格 <br>
+    每一行只能输入一条指令
   </span>
 </div>
 <script type="text/javascript" src="js/main.js"></script>
