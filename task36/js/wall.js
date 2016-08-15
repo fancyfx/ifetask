@@ -21,7 +21,7 @@ Wall.prototype.setWall = function () {
       y = charXandY(this.palce).y;
    var startNod = document.getElementById(this.palce);
    var backNod = startNod.getElementsByTagName('span');
-   if (this.palceState[x][y] === 0 && x > 0 && y > 0 && x < 11 && y < 11 && backNod.length < 1) {
+   if (this.palceState[x][y] !== -1 && x > 0 && y > 0 && x < 11 && y < 11 && backNod.length< 1) {
        var spanNod1 = document.createElement('span');
        startNod.appendChild(spanNod1);
        spanNod1.setAttribute('class', 'wall');

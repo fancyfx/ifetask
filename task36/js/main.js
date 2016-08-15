@@ -15,7 +15,7 @@ var input = div.getElementsByTagName('input');
 var button = div.getElementsByTagName('button');
 // 指令执行状态
 var codeRunState = true;
-
+var pathVal; // 保存 A satr 算法路径坐标（演示算法时用）
 // 保存页面元素二维数组
 var wallArray = [];
 for (var i = 0; i < 11; i++) {
@@ -32,7 +32,7 @@ button[0].onclick = function () {
         if (wallArray[j][k] !== -1 && wallArray[j][k] !== 2) wallArray[j][k].removWall();
       }
     }
-    var num = 8; //墙生成数量
+    var num = 20; //墙生成数量
     for (var i = 0; i < num; i++) {
       var x = randomXandY().x,
           y = randomXandY().y;
@@ -43,6 +43,7 @@ button[0].onclick = function () {
         num ++;
       }
     }
+
   }else {
     alert("指令还未执行完毕，请勿重复点击！");
   }
@@ -69,14 +70,42 @@ button[2].onclick = function () {
 };
 // 重置页面元素按钮点击事件
 button[3].onclick = function () {
+  // 重置‘墙’
   for (var j= 0; j < 11; j++) {
     for (var k = 0; k < 11; k++) {
-      if (wallArray[j][k] !== -1 && wallArray[j][k] !== 2) wallArray[j][k].removWall();
+      if (wallArray[j][k] !== -1 && wallArray[j][k] !== 2 ) wallArray[j][k].removWall();
     }
   }
+  // 重置算法路径
+  if (pathVal) {
+    for (var m = 0; m < pathVal.length; m++) {
+      removeNode(pathVal[m]);
+    }
+    pathVal = null;
+  }
+  // 重置 '小方块'
   removeNode(pieces.startVal);
-  pieces.startVal = '5,5';
+  pieces.startVal = '1,2';
   addNodePieces();
+};
+// A* 寻路算法演示
+button[4].onclick = function () {
+
+  if (pathVal) {
+    for (var j = 0; j < pathVal.length; j++) {
+      removeNode(pathVal[j]);
+    }
+    pathVal = null;
+  }
+
+  pathVal = path(pieces.startVal,'8,9');
+  for (var i = 0; i < pathVal.length; i++) {
+    var startNod = document.getElementById(pathVal[i]);
+    var spanNod1 = document.createElement('span');
+    startNod.appendChild(spanNod1);
+    spanNod1.setAttribute('class', 'path');
+  }
+
 };
 /**
  * 指令执行处理逻辑
@@ -223,6 +252,7 @@ function addGrid() {
         tr.appendChild(td);
         var val =  i +","+ j;
         td.setAttribute('id',val);
+        td.setAttribute('onclick',"tdOn(this)");
         if (i === 0) {
            td.innerHTML = j;
         }
@@ -297,4 +327,15 @@ function startCodeLine() {
       iNode.innerHTML = i;
       codeLine.appendChild(iNode);
     }
+}
+
+// 页面方块点击事件处理逻辑
+function tdOn(obj) {
+   var val = obj.getAttribute('id');
+   var wall = new Wall(val);
+   var x = charXandY(val).x,
+       y = charXandY(val).y;
+   if (wallArray[x][y] === -1 && wall.setWall()) {
+       wallArray[x][y] = wall;
+   }
 }

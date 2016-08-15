@@ -16,6 +16,7 @@
     <button type="button" name="button">执行</button>
     <button type="button" name="button">重置命令输入框</button>
     <button type="button" name="button">重置页面元素</button>
+    <button type="button" name="button">A*</button>
   </div>
   <div class="zx">
   <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;"><i class="error-hide">1</i>
@@ -76,7 +77,7 @@ BUILD
 BRU #e74a4a
 </textarea>
   </div>
-  <span class="desc">
+  <!-- <span class="desc">
     指令说明：
     <br>
     GO：向箭头的方向前进一格
@@ -107,11 +108,12 @@ BRU #e74a4a
     参数只能是1~9的正整数 <br>
     指令中间必须有一个空格 <br>
     每一行只能输入一条指令
-  </span>
+  </span> -->
 </div>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/pieces.js"></script>
 <script type="text/javascript" src="js/code.js"></script>
 <script type="text/javascript" src="js/wall.js"></script>
+<script type="text/javascript" src="js/pathfinding.js"></script>
 </body>
 </html>
