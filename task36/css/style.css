@@ -13,6 +13,21 @@
   width: 100%;
   text-align: center;
 }
+#bg .ml{
+  width: 65%;
+  margin-left: 22%;
+  z-index: 999;
+}
+#bg .ml button{
+  width: 100px;
+  height: 20px;
+  cursor:pointer;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+  margin-left: 10px;
+}
 #bg .zx{
   width: 50%;
   margin: 0 auto;
@@ -21,21 +36,13 @@
       -ms-user-select:none;
           user-select:none;
   position: relative;
-
+  z-index: 999;
 }
 #bg .zx label{
   display: block;
   margin-top: 10px;
 }
-#bg .zx button{
-  width: 80px;
-  height: 20px;
-  cursor:pointer;
-  -webkit-user-select:none;
-     -moz-user-select:none;
-      -ms-user-select:none;
-          user-select:none;
-}
+
 #bg .zx textarea{
    display: block;
    margin-top: 5px;
@@ -58,7 +65,7 @@
    background-color: #aaa;
    width: 25px;
    position: absolute;
-   top: 51px;
+   top: 21px;
    left: 0;
    height: 150px;
    color: #fff;
@@ -70,14 +77,10 @@
 #bg .zx #codeLine i{
   display: block;
   font-style: normal;
-  /*margin: 2px 0;*/
   margin-top: 3px;
   text-align: center;
   width: 25px;
-  /*height: 20px;*/
-  /*line-height: 28px;*/
   font-size: 18px;
-  /*padding: 1px;*/
 }
 #bg .zx #codeLine .error-show{
    background-color: #f00;
@@ -106,6 +109,7 @@
      -moz-user-select:none;
       -ms-user-select:none;
           user-select:none;
+
 }
 #game td{
    width: 40px;
@@ -130,18 +134,23 @@
   border: none;
   opacity:0;
 }
+#game .path{
+  display :block;
+  background-color : #4598bb;
+  width :40px;
+  height:40px;
+}
 #game .pieces{
   text-align: center;
   line-height: 40px;
   display :block;
-  background-color : rgb(231, 74, 74);
+  background-color : #e74a4a;
 }
 #game .piecesTop {
   border: none;
   width :40px;
   height:25px;
   border-top: 15px solid rgb(84, 207, 59);
-  /*animation: rotate-left 1s 1 linear forwards;*/
 }
 #game .piecesLeft {
   border: none;
@@ -167,6 +176,13 @@
   height:30%;
   background-color : rgb(84, 207, 59);
 }
+
+#game .wall{
+  display :block;
+  width: 40px;
+  height: 40px;
+}
+
 
 /*右移*/
 @-webkit-keyframes move-right{

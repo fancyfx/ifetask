@@ -4,30 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>任务三十五：听指令的小方块（三）</title>
+  <title>任务三十六：听指令的小方块（四）</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div id="bg">
   <h1>听指令的小方块</h1>
   <table id="game"></table>
+  <div class="ml">
+    <button type="button" name="button">随机生成墙</button>
+    <button type="button" name="button">执行</button>
+    <button type="button" name="button">重置命令输入框</button>
+    <button type="button" name="button">重置页面元素</button>
+    <button type="button" name="button">A*</button>
+  </div>
   <div class="zx">
-  <button type="button" name="button">执行</button>
-  <button type="button" name="button">重置</button>
   <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;"><i class="error-hide">1</i>
-    <i class="error-hide">2</i>
-    <i class="error-hide">3</i>
-    <i class="error-hide">4</i>
   </span>
   <label>请在下面输入指令：</label>
   <textarea name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;">
-GO 2
+BUILD
+TRA LEF
+GO
+BUILD
+TRA LEF
+BUILD
+TRA LEF
+BUILD
 TUN LEF
-TRA LEF 3
-MOV BOT 4
+BUILD
+TRA BOT
+BUILD
+TRA BOT
+BUILD
+TUN LEF
+BUILD
+TRA RIG
+GO
+BUILD
+TRA RIG
+GO
+BUILD
+TRA RIG
+BUILD
+TRA RIG
+BUILD
+TRA RIG
+BUILD
+TUN LEF
+BUILD
+TRA TOP
+GO
+BUILD
+TRA TOP
+GO
+BUILD
+TRA TOP
+BUILD
+TRA TOP
+BUILD
+TUN LEF
+BUILD
+TRA LEF
+BUILD
+TRA LEF
+BUILD
+TUN LEF
+BUILD
+TRA BOT 3
+GO
+BUILD
+BRU #e74a4a
 </textarea>
   </div>
-  <span class="desc">
+  <!-- <span class="desc">
     指令说明：
     <br>
     GO：向箭头的方向前进一格
@@ -58,10 +108,12 @@ MOV BOT 4
     参数只能是1~9的正整数 <br>
     指令中间必须有一个空格 <br>
     每一行只能输入一条指令
-  </span>
+  </span> -->
 </div>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/pieces.js"></script>
 <script type="text/javascript" src="js/code.js"></script>
+<script type="text/javascript" src="js/wall.js"></script>
+<script type="text/javascript" src="js/pathfinding.js"></script>
 </body>
 </html>

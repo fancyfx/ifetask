@@ -2,19 +2,19 @@
  * 棋子对象 定义棋子的属性和方法
  */
 var pieces = {
-      startVal :'7,5',            //位置
-      borderValue : 'piecesRight',  //方块方向  piecesTop:上  piecesRight:右 piecesBottom:下 piecesLeft:左
+      startVal :'1,2',            //位置
+      borderValue : 'piecesTop',  //方块方向  piecesTop:上  piecesRight:右 piecesBottom:下 piecesLeft:左
       onBloo : true   ,            //命令执行状态 防止重复点击
       // 向上移动的方法
       tarTop : function () {
-        var val,sp;
-        sp = pieces.startVal.split(",");
-        val = parseFloat(sp[0]) - 1;
-        if (val < 1 || !pieces.onBloo) return;
+        var x = charXandY(pieces.startVal).x,
+            y = charXandY(pieces.startVal).y;
+            x -= 1;
+        if (x < 1 || !pieces.onBloo || wallArray[x][y] !== -1) return;
            moveAnimation('move-up');
           setTimeout(function () {
             removeNode(pieces.startVal);
-            pieces.startVal = val + "," + sp[1];
+            pieces.startVal = x+','+y;
             // 更新棋子
             addNodePieces();
             pieces.onBloo = true;
@@ -22,14 +22,14 @@ var pieces = {
       },
       // 向下移动的方法
       tarBottom : function () {
-        var val,sp;
-        sp = pieces.startVal.split(",");
-        val = parseFloat(sp[0]) + 1;
-        if (val > 10 || !pieces.onBloo) return;
+        var x = charXandY(pieces.startVal).x,
+            y = charXandY(pieces.startVal).y;
+            x += 1;
+        if (x > 10 || !pieces.onBloo || wallArray[x][y] !== -1) return;
           moveAnimation('move-down');
           setTimeout(function () {
             removeNode(pieces.startVal);
-            pieces.startVal = val + "," + sp[1];
+            pieces.startVal = x+','+y;
             // 更新棋子
             addNodePieces();
             pieces.onBloo = true;
@@ -37,14 +37,14 @@ var pieces = {
       },
       // 向左移动的方法
       tarLeft : function () {
-        var val,sp;
-        sp = pieces.startVal.split(",");
-        val = parseFloat(sp[1]) - 1;
-        if ( val < 1 || !pieces.onBloo) return;
+        var x = charXandY(pieces.startVal).x,
+            y = charXandY(pieces.startVal).y;
+            y -= 1;
+        if ( y < 1 || !pieces.onBloo || wallArray[x][y] !== -1) return;
           moveAnimation('move-left');
           setTimeout(function () {
             removeNode(pieces.startVal);
-            pieces.startVal = sp[0] + "," + val;
+            pieces.startVal = x+','+y;
             // 更新棋子
             addNodePieces();
             pieces.onBloo = true;
@@ -53,14 +53,14 @@ var pieces = {
       },
       // 向右移动的方法
       tarRight : function () {
-        var val,sp;
-        sp = pieces.startVal.split(",");
-        val = parseFloat(sp[1]) + 1;
-      if ( val > 10 || !pieces.onBloo) return;
+        var x = charXandY(pieces.startVal).x,
+            y = charXandY(pieces.startVal).y;
+            y += 1;
+      if ( y > 10 || !pieces.onBloo || wallArray[x][y] !== -1) return;
         moveAnimation('move-right');
         setTimeout(function () {
           removeNode(pieces.startVal);
-          pieces.startVal = sp[0] + "," + val;
+          pieces.startVal = x+','+y;
           // 更新棋子
           addNodePieces();
           pieces.onBloo = true;
