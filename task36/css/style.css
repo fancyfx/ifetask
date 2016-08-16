@@ -13,20 +13,27 @@
   width: 100%;
   text-align: center;
 }
-#bg .ml{
-  width: 65%;
-  margin-left: 22%;
+#bg .a-star{
+  position: absolute;
+  top:20%;
+  left: 70%;
   z-index: 999;
+  font-size: 18px;
 }
-#bg .ml button{
-  width: 100px;
-  height: 20px;
+#bg .a-star h3{
+  margin: 0 0 20px 0;
+}
+#bg .a-star label{
+  font-size: 16px;
+}
+#bg .a-star button{
+  display: block;
+  width: 200px;
+  height: 30px;
+  margin: 10px 0 0 20px;
+  border: none;
+  outline: none;
   cursor:pointer;
-  -webkit-user-select:none;
-     -moz-user-select:none;
-      -ms-user-select:none;
-          user-select:none;
-  margin-left: 10px;
 }
 #bg .zx{
   width: 50%;
@@ -37,6 +44,29 @@
           user-select:none;
   position: relative;
   z-index: 999;
+}
+#bg .zx .ml{
+  position: absolute;
+  top:0;
+  left: 110%;
+  z-index: 999;
+  font-size: 18px;
+}
+#bg .zx .ml input{
+  display: block;
+}
+#bg .zx .ml button{
+  display: block;
+  width: 100px;
+  height: 25px;
+  cursor:pointer;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  border: none;
 }
 #bg .zx label{
   display: block;
@@ -51,10 +81,10 @@
    color: rgb(37, 158, 96);
    font-size: 18px;
    width: 100%;
-   height: 150px;
+   height: 200px;
    padding-left: 30px;
    resize: none;
-    outline:none;
+   outline:none;
 }
 #bg .zx textarea::-webkit-scrollbar{
     display:none;
@@ -65,9 +95,9 @@
    background-color: #aaa;
    width: 25px;
    position: absolute;
-   top: 21px;
+   top: 0;
    left: 0;
-   height: 150px;
+   height: 200px;
    color: #fff;
    overflow: auto;
 }

@@ -1,7 +1,6 @@
 window.onload = function () {
  addGrid();
  addNodePieces();
- startCodeLine();
 };
 
 /**
@@ -10,9 +9,13 @@ window.onload = function () {
 var div = document.getElementById('bg');
 // 输入框
 var input = div.getElementsByTagName('input');
-
 // 按钮
 var button = div.getElementsByTagName('button');
+// 命令输入框
+var codeText = document.getElementById('codeText');
+// 代码行数条
+var codeLine = document.getElementById('codeLine');
+var codeLineVal = codeLine.getElementsByTagName('i');
 // 指令执行状态
 var codeRunState = true;
 var pathVal; // 保存 A satr 算法路径坐标（演示算法时用）
@@ -24,9 +27,36 @@ for (var i = 0; i < 11; i++) {
     wallArray[i][j] = -1;
   }
 }
-  // 随机生成墙按钮点击事件
+// A* 寻路算法演示
 button[0].onclick = function () {
-  if (codeRunState) {
+  var inputVal = input[0].value;
+  // 验证 x,y(1~10) 的坐标
+  var  pattern =  /^([1-9]|10)\,([1-9]|10)$/;
+  if (pattern.test(inputVal)) {  // 验证输入字符串
+  if (codeRunState) {            // 验证执行命令是点击
+    if (pathVal) {               // 重置时验证是否存在
+      for (var j = 0; j < pathVal.length; j++) {
+        removeNode(pathVal[j]);
+      }
+      pathVal = null;
+    }
+      pathVal = path(pieces.startVal,inputVal);
+      for (var i = 0; i < pathVal.length; i++) {
+        var startNod = document.getElementById(pathVal[i]);
+        var spanNod1 = document.createElement('span');
+        startNod.appendChild(spanNod1);
+        spanNod1.setAttribute('class', 'path');
+      }
+  }else {
+    alert("指令还未执行完毕，请勿点击！");
+  }
+}else {
+  alert("输入的坐标不正确，请重新输入");
+}
+};
+  // 随机生成墙按钮点击事件
+button[1].onclick = function () {
+  if (codeRunState) { // 验证执行命令是点击
     for (var j= 0; j < 11; j++) {
       for (var k = 0; k < 11; k++) {
         if (wallArray[j][k] !== -1 && wallArray[j][k] !== 2) wallArray[j][k].removWall();
@@ -43,14 +73,24 @@ button[0].onclick = function () {
         num ++;
       }
     }
-
   }else {
-    alert("指令还未执行完毕，请勿重复点击！");
+    alert("指令还未执行完毕，请勿点击！");
   }
 
 };
+// 生成预设指令
+button[2].onclick = function () {
+  var instruction = "BUILD\nTRA LEF\nGO\nBUILD\nTRA LEF\nBUILD\nTRA LEF\nBUILD\nTUN LEF\nBUILD\nTRA BOT\nBUILD\nTRA BOT\nBUILD" +
+  "\nTUN LEF\n\nBUILD\nTRA RIG\nGO\nBUILD\nTRA RIG\nGO\nBUILD\nTRA RIG\nBUILD\nTRA RIG\nBUILD\nTRA RIG\nBUILD\nTUN LEF\nBUILD" +
+  "\nTRA TOP\nGO\nBUILD\nTRA TOP\nGO\nBUILD\nTRA TOP\nBUILD\nTRA TOP\nBUILD\nTUN LEF\nBUILD\nTRA LEF\nBUILD\nTRA LEF\nBUILD" +
+  "\nTUN LEF\nBUILD\nTRA BOT 2\nGO\nBUILD\nBRU #e74a4a";
+  codeText.value = '';
+  codeText.value = instruction;
+  startCodeLine();
+};
+
   // 执行按钮点击事件
-button[1].onclick = function () {
+button[3].onclick = function () {
   removeError();
 
   if (addErrorCodeLine() === 404) {
@@ -59,54 +99,40 @@ button[1].onclick = function () {
     if (codeRunState) {
       codeRun();
     }else {
-      alert("指令还未执行完毕，请勿重复点击！");
+      alert("指令还未执行完毕，请勿点击！");
     }
   }
 };
 // 重置输入框按钮点击事件
-button[2].onclick = function () {
+button[4].onclick = function () {
   codeText.value = '';
   codeLine.innerHTML = '<i>1</i>';
 };
 // 重置页面元素按钮点击事件
-button[3].onclick = function () {
-  // 重置‘墙’
-  for (var j= 0; j < 11; j++) {
-    for (var k = 0; k < 11; k++) {
-      if (wallArray[j][k] !== -1 && wallArray[j][k] !== 2 ) wallArray[j][k].removWall();
+button[5].onclick = function () {
+  if (codeRunState) {
+    // 重置‘墙’
+    for (var j= 0; j < 11; j++) {
+      for (var k = 0; k < 11; k++) {
+        if (wallArray[j][k] !== -1 && wallArray[j][k] !== 2 ) wallArray[j][k].removWall();
+      }
     }
-  }
-  // 重置算法路径
-  if (pathVal) {
-    for (var m = 0; m < pathVal.length; m++) {
-      removeNode(pathVal[m]);
+    // 重置算法路径
+    if (pathVal) {
+      for (var m = 0; m < pathVal.length; m++) {
+        removeNode(pathVal[m]);
+      }
+      pathVal = null;
     }
-    pathVal = null;
-  }
-  // 重置 '小方块'
-  removeNode(pieces.startVal);
-  pieces.startVal = '1,2';
-  addNodePieces();
-};
-// A* 寻路算法演示
-button[4].onclick = function () {
-
-  if (pathVal) {
-    for (var j = 0; j < pathVal.length; j++) {
-      removeNode(pathVal[j]);
-    }
-    pathVal = null;
-  }
-
-  pathVal = path(pieces.startVal,'8,9');
-  for (var i = 0; i < pathVal.length; i++) {
-    var startNod = document.getElementById(pathVal[i]);
-    var spanNod1 = document.createElement('span');
-    startNod.appendChild(spanNod1);
-    spanNod1.setAttribute('class', 'path');
+    // 重置 '小方块'
+    removeNode(pieces.startVal);
+    addNodePieces();
+  }else {
+    alert("指令还未执行完毕，请勿点击！");
   }
 
 };
+
 /**
  * 指令执行处理逻辑
  */
@@ -142,6 +168,13 @@ function codeRun() {
             codeRunVal.splice(++m,0,val);
           }
           break;
+          default:
+          //  解析 MOV TO x,y指令
+          if (codeRunVal[m].length > 9 && codeRunVal[m].length < 13 && codeRunVal[m].substr(0,6) === 'MOV TO') {
+              analyseMovTo(m + 1,codeRunVal[m],codeRunVal);
+              codeRunVal.splice(m,1);
+          }
+
       }
     }
     // 指令集 间隔执行
@@ -216,12 +249,41 @@ function codeSelect(inputVal) {
           buiid();
           break;
         default:
-        if (inputVal.slice(0, 3) === 'BRU') {
-            bruColor(inputVal);
-        }else if (inputVal.slice(0, 6) === 'MOV TO') {
-
-        }
+          if (inputVal.slice(0, 3) === 'BRU') {
+           bruColor(inputVal);
+       }
       }
+}
+
+/**
+ * 解析 MOV TO指令
+ */
+function analyseMovTo(m,val,array) {
+  var movToVal = val.slice(7);
+  var movToPath = path(pieces.startVal,movToVal);
+  // 初始化坐标为启动
+  var x = charXandY(pieces.startVal).x,
+      y = charXandY(pieces.startVal).y;
+  for (var i = 0; i < movToPath.length; i++) {
+      switch (pathVal[i]) {
+        case (x - 1) + ',' + y : //上
+          array.splice(m + i,0,'TRA TOP');
+          break;
+        case (x + 1) + ',' + y : //下
+          array.splice(m + i,0,'TRA BOT');
+          break;
+        case x + ',' + (y - 1) : //左
+          pathInstruction.push('TRA LEF');
+          array.splice(m + i,0,'TRA LEF');
+          break;
+        case x + ',' + (y + 1) : //右
+          array.splice(m + i,0,'TRA RIG');
+          break;
+      }
+      // 每移动一次 坐标变为上一次的位置的坐标
+      x = charXandY(pathVal[i]).x;
+      y = charXandY(pathVal[i]).y;
+  }
 }
 /**
  * 添加棋子页面元素
