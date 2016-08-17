@@ -1,9 +1,7 @@
 
-var demoNode = document.getElementById('demo');
+var demoNode = document.getElementById('demo1');
 
-var buttonNode = demoNode.getElementsByTagName('button');
-
-buttonNode[0].onclick = function () {
-    setUI();
-
+demoNode.onclick = function () {
+    var t1 = new Flyout("<i> 这是一个弹窗<i>","11123");
+    t1.setUI();
 };
