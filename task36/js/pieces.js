@@ -2,7 +2,7 @@
  * 棋子对象 定义棋子的属性和方法
  */
 var pieces = {
-      startVal :'1,2',            //位置
+      startVal :'5,5',            //位置
       borderValue : 'piecesTop',  //方块方向  piecesTop:上  piecesRight:右 piecesBottom:下 piecesLeft:左
       onBloo : true   ,            //命令执行状态 防止重复点击
       // 向上移动的方法
@@ -235,6 +235,5 @@ var pieces = {
               default:
               pieces.tarRight();
           }
-
       }
 };

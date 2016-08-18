@@ -11,71 +11,23 @@
 <div id="bg">
   <h1>听指令的小方块</h1>
   <table id="game"></table>
-  <div class="ml">
-    <button type="button" name="button">随机生成墙</button>
-    <button type="button" name="button">执行</button>
-    <button type="button" name="button">重置命令输入框</button>
-    <button type="button" name="button">重置页面元素</button>
+  <div class="a-star">
+    <h3>A* 寻路算法快捷演示</h4>
+    <label>输入终点坐标：</label>
+    <input type="text" placeholder="x,y(1~10)">
     <button type="button" name="button">A*</button>
   </div>
   <div class="zx">
   <span id="codeLine" onscroll="document.getElementById('codeText').scrollTop = this.scrollTop;"><i class="error-hide">1</i>
   </span>
-  <label>请在下面输入指令：</label>
-  <textarea name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;">
-BUILD
-TRA LEF
-GO
-BUILD
-TRA LEF
-BUILD
-TRA LEF
-BUILD
-TUN LEF
-BUILD
-TRA BOT
-BUILD
-TRA BOT
-BUILD
-TUN LEF
-BUILD
-TRA RIG
-GO
-BUILD
-TRA RIG
-GO
-BUILD
-TRA RIG
-BUILD
-TRA RIG
-BUILD
-TRA RIG
-BUILD
-TUN LEF
-BUILD
-TRA TOP
-GO
-BUILD
-TRA TOP
-GO
-BUILD
-TRA TOP
-BUILD
-TRA TOP
-BUILD
-TUN LEF
-BUILD
-TRA LEF
-BUILD
-TRA LEF
-BUILD
-TUN LEF
-BUILD
-TRA BOT 3
-GO
-BUILD
-BRU #e74a4a
-</textarea>
+  <textarea placeholder="请输入指令" name="name"  id="codeText" onscroll="document.getElementById('codeLine').scrollTop = this.scrollTop;"></textarea>
+  <div class="ml">
+      <button type="button" name="button">随机生成墙</button>
+      <button type="button" name="button">生成预设指令</button>
+      <button type="button" name="button">执行</button>
+      <button type="button" name="button">重置命令输入框</button>
+      <button type="button" name="button">重置页面元素</button>
+  </div>
   </div>
   <!-- <span class="desc">
     指令说明：

@@ -1,11 +1,7 @@
 /**
  * 命令 输入框处理逻辑
  */
-// 命令输入框
-var codeText = document.getElementById('codeText');
-// 代码行数条
-var codeLine = document.getElementById('codeLine');
-var codeLineVal = codeLine.getElementsByTagName('i');
+
 
 codeText.onkeyup = function (event) {
 
