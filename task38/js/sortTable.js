@@ -1,14 +1,19 @@
 /**
  * [UI组件之排序表格]
- * @param {[string]} id     [需要插入表格的dom id]
- * @param {[type]} colVal [表格行数]
- * @param {[type]} rowVal [表格列数]
+ * @param {[string]} id             [需要插入表格的dom id]
+ * @param {[type]} colVal           [表格行数]
+ * @param {[type]} rowVal           [表格列数]
+ * @param {[type]} compareApiUp     [up 按钮排序接口]
+ * @param {[type]} compareApiDown   [down 按钮排序接口]
  */
-function SortTable(id,colVal,rowVal) {
-    this.nodeId = id;       // 需要插入表格的dom id
-    this.column = colVal;   // 表格行数
-    this.row = rowVal;      // 表格列数
-    this.td = [];           // 保存表格元素 td 二维数组
+function SortTable(id,colVal,rowVal,compareApiUp,compareApiDown) {
+    this.nodeId = id;                    // 需要插入表格的dom id
+    this.column = colVal;                // 表格行数
+    this.row = rowVal;                   // 表格列数
+    this.td = [];                        // 保存表格元素 td 二维数组
+    this.tbData = [];                    // 保存表格数据 二维数组
+    this.compareUp = compareApiUp;       // up 按钮排序接口
+    this.compareDown = compareApiDown;   // down 按钮排序接口
 }
 // 绘制表格
 SortTable.prototype.setUI = function () {
@@ -20,10 +25,12 @@ SortTable.prototype.setUI = function () {
         var nodeTr1= document.createElement('tr');
         nodeTable.appendChild(nodeTr1);
         this.td[i] = [];
+        this.tbData[i] = [];
         for (var j = 0; j < this.row; j++) {
           var nodeTd= document.createElement('td');
           nodeTr1.appendChild(nodeTd);
           this.td[i][j] = nodeTd;
+          this.tbData[i][j] = '';
         }
       }
     }
@@ -45,19 +52,29 @@ SortTable.prototype.setUI = function () {
       // 给图标添加点击事件
       (function (k) {
         up.onclick = function () {
-          that.sortUp(k);
+          if (!this.compareUp) {
+            that.sortUp(k);
+          }
+
         };
       })(k);
       (function (k) {
         down.onclick = function () {
-          that.sortDown(k);
+          if (!this.compareDown) {
+            that.sortDown(k);
+          }
         };
       })(k);
 
     }
 };
 
-// 填充数据
+/**
+ * [填充数据]
+ * @param {[number]} num1 [行]
+ * @param {[number]} num2 [列]
+ * @param {[type]} val  [内容]
+ */
 SortTable.prototype.setData = function (num1,num2,val) {
   if ( typeof(num1) === 'number' && typeof(num2) === 'number') {
     if (this.td[num1][num2]) {
@@ -70,11 +87,16 @@ SortTable.prototype.setData = function (num1,num2,val) {
       // 覆盖新内容
         var text = document.createTextNode(val);
         this.td[num1][num2].appendChild(text);
+        this.tbData[num1][num2] = val;
     }
   }
 };
 
-// 显示排序按钮
+
+/**
+ * [显示排序按钮]
+ * @param  {[type]} val [要显示的那一列 从 1 开始]
+ */
 SortTable.prototype.showSortButton = function (val) {
   if ( typeof(val) === 'number' && val <= this.row){
     var that = this;
@@ -87,35 +109,27 @@ SortTable.prototype.showSortButton = function (val) {
 };
 
 // 排序处理逻辑
-// 数字重大到小
+// 数字从大到小
 SortTable.prototype.sortDown = function (val) {
-     var num = [];
-     for (var i = 1; i < this.column; i++) {
-       if (parseFloat(this.td[i][val].innerHTML)) {
-         num.push(parseFloat(this.td[i][val].innerHTML));
-       }else {
-         num.push(this.td[i][val].innerHTML);
-       }
-     }
-      num.sort();
-      for (var k = 1; k < this.column; k++) {
-           this.td[k][val].innerHTML = num[k - 1];
+    var newTbData = this.tbData.slice(1);
+    newTbData.sort(function (v1,v2) {
+        return v1[val] -  v2[val];
+    });
+    for (var i = 1; i < this.column; i++) {
+      for (var j = 0; j < this.row; j++) {
+        this.td[i][j].innerHTML = newTbData[i - 1][j];
       }
+    }
 };
-// 数字重小到大
+// 数字从小到大
 SortTable.prototype.sortUp = function (val) {
-     var num = [];
-     for (var i = 1; i < this.column; i++) {
-          if (parseFloat(this.td[i][val].innerHTML)) {
-            num.push(parseFloat(this.td[i][val].innerHTML));
-          }else {
-            num.push(this.td[i][val].innerHTML);
-          }
-     }
-      num.sort(function (v1,v2) {
-          return v2 - v1;
-      });
-      for (var k = 1; k < this.column; k++) {
-           this.td[k][val].innerHTML = num[k - 1];
-      }
+  var newTbData = this.tbData.slice(1);
+  newTbData.sort(function (v1,v2) {
+      return v2[val] -  v1[val];
+  });
+  for (var i = 1; i < this.column; i++) {
+    for (var j = 0; j < this.row; j++) {
+      this.td[i][j].innerHTML = newTbData[i - 1][j];
+    }
+  }
 };
