@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" ></script>
+</head>
+<body>
+  <!-- 统计表格 -->
+  <div class="table-responsive col-sm-12 pl-0 table-show">
+      <table class="table table-condensed table-bordered table-striped table-hover">
+      <!-- 统计表格表头 -->
+  	<thead class="content-indicator nav-table">
+  	    <tr>
+  		<th colspan="1" rowspan="1">名字</th>
+      <th colspan="1" rowspan="1">名字</th>
+      <th colspan="1" rowspan="1">名字</th>
+  	    </tr>
+  	</thead>
+
+      <!-- 统计表格表内容 -->
+  	<tbody>
+  	    <tr>
+  		<td>1</td>
+      <td>2</td>
+      <td>3</td>
+  	    </tr>
+        <tr>
+  		<td>1</td>
+      <td>2</td>
+      <td>3</td>
+  	    </tr>
+        <tr>
+  		<td>1</td>
+      <td>2</td>
+      <td>3</td>
+  	    </tr>
+  	</tbody>
+      </table>
+  </div>
+
+  <!-- 隐藏表头 -->
+  <div class="table-responsive table-hide">
+      <table class="table table-condensed table-bordered table-striped table-hover">
+      <!-- 统计表格表头 -->
+  	<thead class="content-indicator nav-table">
+  	    <tr>
+  		<th colspan="1" rowspan="1"></th>
+  	    </tr>
+  	</thead>
+      </table>
+  </div>
+<div style="height:1000px;width:200px;"> </div>
+
+<script type="text/javascript">
+//监听表头到top并固定表头
+window.fixTable = function(){
+  if($('.table-show').length <= 0) {
+return false;
+  }
+  //测量表头宽度并复制给隐藏表头
+  $(".table-show thead>tr>th").each(function(index,element){
+var width = $(element).outerWidth();
+$(".table-hide thead>tr>th").eq(index).attr("width",width);
+  });
+  var theadHeight = $('.nav-table').offset().top;
+  $(window).scroll(function(){
+var scroHeight = $(this).scrollTop();
+if((scroHeight+50) >= theadHeight && $(window).width() > 916){
+    $(".table-hide").css({"display":"table","position":"fixed","top":40,"z-index":1000,"margin":0});
+}else{
+    $(".table-hide").css({"display":"none"});
+}
+  });
+}
+//当用户resize窗口，重新初始化监听
+$(window).on("resize", function(){
+  fixTable();
+});
+
+</script>
+</body>
+</html>
