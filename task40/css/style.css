@@ -1,0 +1,93 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.date{
+  width: 240px;
+  margin: 5% 30%;
+  border: 1px solid rgba(108, 166, 184, 0.6);
+  padding: 5px;
+  -webkit-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+}
+.date .head{
+  /*background-color: rgb(193, 179, 179);*/
+  /*color: #fff;*/
+}
+.date .head .year, .month{
+    display: inline-block;
+    width: 90px;
+    height: 25px;
+
+    line-height: 25px;
+    text-align: center;
+    font-size: 12px;
+}
+.date .head  i{
+   display: inline-block;
+   width: 15px;
+   font-style: normal;
+   border: 1px solid rgba(167, 180, 172, 0.64);
+   cursor:pointer;
+}
+.date .head  i:hover{
+  border: 1px solid rgba(54, 197, 207, 0.89);
+  color: rgba(54, 197, 207, 0.89);
+}
+.date .head span{
+  display: inline-block;
+  padding: 0 5px;
+  width: 40px;
+  border-top: 1px solid rgba(167, 180, 172, 0.64);
+  border-bottom: 1px solid rgba(167, 180, 172, 0.64);
+}
+.date .year{
+    margin: 0px 18px 5px 18px;
+}
+
+
+.date table{
+  text-align: center;
+  line-height: 30px;
+  margin: 5px;
+  border-top: 1px solid rgb(26, 121, 232);
+}
+.date table td{
+    width: 30px;
+    height: 30px;
+
+}
+.date table .clickable{
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+}
+.date table .unclickable{
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  background-color: rgba(170, 161, 168, 0.2);
+  color: rgba(174, 181, 166, 0.68);
+}
+.date table .elseMonth {
+   color: rgba(174, 181, 166, 0.68);
+}
+.date table tr th:first-child{
+   color: #f00;
+}
+.date table tr th:last-child{
+   color: #f00;
+}
+.date table tr td:first-child{
+   color: #f00;
+}
+.date table tr td:last-child{
+   color: #f00;
+}
+.date table td:hover .clickable{
+  outline: 2px solid rgb(233, 216, 98);
+  cursor:pointer;
+}

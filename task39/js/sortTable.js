@@ -14,6 +14,7 @@ function SortTable(id,colVal,rowVal,compareApiUp,compareApiDown) {
     this.tbData = [];                    // 保存表格数据 二维数组
     this.compareUp = compareApiUp;       // up 按钮排序接口
     this.compareDown = compareApiDown;   // down 按钮排序接口
+
 }
 // 绘制表格
 SortTable.prototype.setUI = function () {
@@ -132,4 +133,33 @@ SortTable.prototype.sortUp = function (val) {
       this.td[i][j].innerHTML = newTbData[i - 1][j];
     }
   }
+};
+
+// 表格超出屏幕 冻结首行
+SortTable.prototype.freezeFirstLineForPc = function () {
+  var id = '#' + this.nodeId;
+  $(window).scroll(function() {
+    var topNum = $(id).get(0).offsetTop - $(window).scrollTop();
+    var tableH = $(id).height();
+    if (topNum < 0 && topNum > (-tableH)) {
+      $(id +' tr:first-child').css({"position":"fixed","top":"0"});
+    }else {
+      $(id +' tr:first-child').css({"position":"","top":"0"});
+    }
+  });
+};
+
+
+//  超出父div 冻结首行
+SortTable.prototype.freezeFirstLineForParNode = function () {
+    var id = '#' + this.nodeId;
+  $(id).scroll(function() {
+    var topNum =  $(id).scrollTop();
+    if (topNum > 0 ) {
+      $(id).css({"position":"relative"});
+      $(id +' tr:first-child').css({"position":"absolute","top":topNum + 'px'});
+    }else {
+      $(id +' tr:first-child').css({"position":"","top":"0"});
+    }
+  });
 };
