@@ -72,6 +72,9 @@
   background-color: rgba(170, 161, 168, 0.2);
   color: rgba(174, 181, 166, 0.68);
 }
+.date table .elseMonth {
+   color: rgba(174, 181, 166, 0.68);
+}
 .date table tr th:first-child{
    color: #f00;
 }

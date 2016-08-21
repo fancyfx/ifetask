@@ -38,14 +38,14 @@
 
       // 可选日期范围  最大日期
       if (options.maxDate ) {
-        this.maxDate = new Date(numDate(options.maxDate).year ,numDate(options.maxDate).month - 1,numDate(options.maxDate).day);
+        this.maxDate = new Date(options.maxDate);
       }else {
         // 默认 为空
         this.maxDate = null;
       }
       // 可选日期范围  最大日期
       if (options.minDate ) {
-        this.minDate = new Date(numDate(options.minDate).year ,numDate(options.minDate).month - 1,numDate(options.minDate).day);
+        this.minDate = new Date(options.minDate);
       }else {
         // 默认 为空
         this.minDate = null;
@@ -129,7 +129,7 @@
                 that.selectDate.month = that.month;
                   that.selectDate.day = parseInt(this.firstChild.innerHTML);
                 that.render();
-              }else {
+              }else if(this.firstChild.getAttribute('class') === 'unclickable'){
                 alert('该日期不可选');
               }
 
@@ -150,18 +150,44 @@
           }
           // 添加 这个月 天数
           for (var i = 0; i < nowDate.monthLen; i++) {
-            if ( this.minDate || this.maxDate) {
-              if (new Date(this.year,this.month -1,i+1) >= this.minDate && new Date(this.year,this.month - 1,i+1) <= this.maxDate) {
-                // 可选时间样式
-                  this.td[i + nowDate.whichDay].innerHTML = "<span class='clickable'>"+(i+1)+"</span>";
+            // maxDate 为空
+            if (this.minDate && !this.maxDate) {
+              if( new Date(this.year,this.month -1,i+1) >= this.minDate){
+                 this.td[i + nowDate.whichDay].innerHTML = "<span class='clickable'>"+(i+1)+"</span>";
               }else {
                 // 不可选时间样式
                   this.td[i + nowDate.whichDay].innerHTML = "<span class='unclickable'>"+(i+1)+"</span>";
               }
-            }else {
+            }
+            // minDate 为空
+            if (!this.minDate && this.maxDate) {
+              if( new Date(this.year,this.month - 1,i+1) <= this.maxDate){
+                 this.td[i + nowDate.whichDay].innerHTML = "<span class='clickable'>"+(i+1)+"</span>";
+              }else {
+                // 不可选时间样式
+                  this.td[i + nowDate.whichDay].innerHTML = "<span class='unclickable'>"+(i+1)+"</span>";
+              }
+            }
+            // minDate和maxDate 都不为空
+            if (this.minDate && this.maxDate) {
+              if (new Date(this.year,this.month - 1,i+1) <= this.maxDate && new Date(this.year,this.month -1,i+1) >= this.minDate) {
+                  this.td[i + nowDate.whichDay].innerHTML = "<span class='clickable'>"+(i+1)+"</span>";
+                }else {
+                  this.td[i + nowDate.whichDay].innerHTML = "<span class='unclickable'>"+(i+1)+"</span>";
+                }
+            }
+            // minDate和maxDate 都为空
+            if (!this.minDate && !this.maxDate) {
                 this.td[i + nowDate.whichDay].innerHTML = "<span class='clickable'>"+(i+1)+"</span>";
             }
-
+          }
+          // 添加上个月 天数
+          for (var k = 0; k < nowDate.whichDay; k++) {
+              this.td[nowDate.whichDay- k - 1].innerHTML = "<span class='elseMonth'>"+(nowDate.lastMonthLen - k)+"</span>";
+          }
+          // 添加下个月 天数
+          for (var g = nowDate.whichDay + nowDate.monthLen,num = 1 ; g < this.td.length; g++) {
+              this.td[g].innerHTML = "<span class='elseMonth'>"+(num++)+"</span>";
           }
            // 添加 选择的天 显示效果
           if (this.year === this.selectDate.year && this.month === this.selectDate.month) {
@@ -177,16 +203,54 @@
           var that = this;
           return {
             setDate:function (dateVal) {   // 设置日期
-              if (new Date(dateVal.year,dateVal.month -1,dateVal.day) >= that.minDate &&
-              new Date(dateVal.year,dateVal.month -1,dateVal.day) <= that.maxDate) {
+              // maxDate 为空
+              if (that.minDate && !that.maxDate) {
+                if( new Date(dateVal.year,dateVal.month -1,dateVal.day) >= that.minDate){
+                  that.selectDate.year = dateVal.year;
+                  that.selectDate.month = dateVal.month;
+                  that.selectDate.day = dateVal.day;
+                  that.year = dateVal.year;
+                  that.month = dateVal.month;
+                  that.render();
+                }else {
+                  alert('超过时间范围，无法设置');
+                }
+              }
+              // minDate 为空
+              if (!that.minDate && that.maxDate) {
+                if( new Date(dateVal.year,dateVal.month -1,dateVal.day) <= that.maxDate){
+                  that.selectDate.year = dateVal.year;
+                  that.selectDate.month = dateVal.month;
+                  that.selectDate.day = dateVal.day;
+                  that.year = dateVal.year;
+                  that.month = dateVal.month;
+                  that.render();
+                }else {
+                  alert('超过时间范围，无法设置');
+                }
+              }
+              // minDate和maxDate 都不为空
+              if (that.minDate && that.maxDate) {
+                if (new Date(dateVal.year,dateVal.month -1,dateVal.day) <= that.maxDate &&
+                new Date(dateVal.year,dateVal.month -1,dateVal.day) >= that.minDate) {
+                  that.selectDate.year = dateVal.year;
+                  that.selectDate.month = dateVal.month;
+                  that.selectDate.day = dateVal.day;
+                  that.year = dateVal.year;
+                  that.month = dateVal.month;
+                  that.render();
+                  }else {
+                  alert('超过时间范围，无法设置');
+                  }
+              }
+              // minDate和maxDate 都为空
+              if (!that.minDate && !that.maxDate) {
                 that.selectDate.year = dateVal.year;
                 that.selectDate.month = dateVal.month;
                 that.selectDate.day = dateVal.day;
                 that.year = dateVal.year;
                 that.month = dateVal.month;
                 that.render();
-              }else {
-                alert('超过时间范围，无法设置');
               }
             },
             getDate:function () {   // 获取日期
@@ -207,35 +271,20 @@
  * @param  {[string]} day   [日]
  * @return {[object]}       [message]
  * message={
- * year          // 年
- * month         // 月
- * monthLen      // 这个月有几天
- * whichDay      // 1号是周几
- * day           // 天
+ * lastMonthLen   // 上个月有几天
+ * monthLen       // 这个月有几天
+ * nextMonthLen   // 下个月有几天
+ * whichDay       // 1号是周几
  * }
  */
 function calculate(year,month,day){
    var date=year+'/'+month+'/'+'1';
    var whichDay=new Date(date).getDay();
     var message={
-          year:year,
-          month:month,
+          lastMonthLen:new Date(year,month - 1,0).getDate(),
           monthLen:new Date(year,month,0).getDate(),
+          nextMonthLen:new Date(year,month + 1,0).getDate(),
           whichDay:whichDay,
-          day:day
     };
     return message;
-}
-
-
-/**
- * 把时间字符串(2014/02/01) 转换为 年月日 数字
- */
-function numDate(val) {
-  var maxDateVal = val.split('/');
-  return {
-     year:parseInt(maxDateVal[0]),
-     month:parseInt(maxDateVal[1]),
-     day:parseInt(maxDateVal[2])
-  };
 }
