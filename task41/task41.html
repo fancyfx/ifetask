@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>任务四十一：UI组件之日历组件（二）</title>
+  <script type="text/javascript" src="js/jquery-3.1.0.slim.min.js"></script>
+  <script type="text/javascript" src="js/datePicker.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="calendar"></div>
+<script type="text/javascript">
+    // 创建日历
+    var date = new DatePicker({
+        id:"#calendar",             // 日历组件 dom id（必须否则无法 创建,由于用的是jQuery id请+ # class + .）
+        // maxDate:'2016/8/31',        // 日历可选时间段最大时间（非必选，注意格式一定要相同）
+        // minDate:'2016/8/2'          // 日历可选时间段最小时间（非必选，注意格式一定要相同）
+    });
+    // 设置日历时间 （注意：设置参数一定要和下面一样）
+    // date.setAndGetDate().setDate(
+    //   {
+    //     year:2016,
+    //     month:9,
+    //     day:1
+    //   }
+    // );
+    // 获取日历时间
+    console.log(date.setAndGetDate().getDate());
+    // 获取用户选择状态
+    console.log(date.setAndGetDate().getIsSelectDate());
+</script>
+</body>
+</html>
