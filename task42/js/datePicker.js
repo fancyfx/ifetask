@@ -33,12 +33,21 @@
       this.year = new Date().getFullYear();    // 当前时间 年
       this.month = new Date().getMonth() + 1;   // 当前时间 月
       this.day = new Date().getDate();          // 当前时间 日
-      this.selectDate ={                        //保存当前选择 日期
+
+      this.isSelectDate = false;                                 // 用户现在状态
+      this.isTimeBucket = options.isTimeBucket || false;         // 是否启用时间段
+      this.minTimeBucket = options.minTimeBucket || 2;           //  时间段最小跨度
+      this.maxTimeBucket = options.maxTimeBucket || 90;          //  时间段最大跨度
+      this.selectDate ={                        //保存当前选择 日期(时间选择时 第一次选择时间)
           year:new Date().getFullYear(),
           month:new Date().getMonth() + 1,
           day:new Date().getDate()
       };
-      this.isSelectDate = false;             // 用户现在状态
+      this.selectDate2 ={                        //时间选择时 保存第二次选择时间
+          year:new Date().getFullYear(),
+          month:new Date().getMonth() + 1,
+          day:new Date().getDate()
+      };
       // 可选日期范围  最大日期
       if (options.maxDate ) {
         this.maxDate = new Date(options.maxDate);
@@ -126,19 +135,52 @@
              that.render();
         });
         //  点击 td 选择 日期
+        var isStateClick = true;   // 点击状态 (二次点击)
         $(this.nodeid + ' .date table td').click(function () {
               if (!this.firstChild) return;
               if (this.firstChild.getAttribute('class') === 'clickable') {
-                that.selectDate.year = that.year;
-                that.selectDate.month = that.month;
-                that.selectDate.day = parseInt(this.firstChild.innerHTML);
-                that.render();
-                // 设置 输入框的值
-                $(that.nodeid + ' .date-input input').get(0).value = that.setAndGetDate().getDate();
-                // 用户已经选择
-                this.isSelectDate = true;
-                // 隐藏日历
-                $(that.nodeid + ' .date').css({"display":"none"});
+                //  判断是否启动时间段
+                if (that.isTimeBucket) {
+                  var tempChar = that.year+'/'+that.month+'/'+this.firstChild.innerHTML;
+                  var selectDateChar = that.selectDate.year+'/'+that.selectDate.month+'/'+that.selectDate.day;
+                  var selectDateChar2 = that.selectDate2.year+'/'+that.selectDate2.month+'/'+that.selectDate2.day;
+                    if (isStateClick) {    // 第一次选择
+                      if (tempChar !== selectDateChar && tempChar !== selectDateChar2) {
+                          that.selectDate2.year = that.year;
+                          that.selectDate2.month = that.month;
+                          that.selectDate2.day = parseInt(this.firstChild.innerHTML);
+                          that.render();
+                          // 用户已经选择
+                          that.isSelectDate = true;
+                      }
+                      isStateClick = !isStateClick;
+                    }else {                // 第二次选择
+                        if (tempChar !== selectDateChar && tempChar !== selectDateChar2) {
+                          that.selectDate.year = that.year;
+                          that.selectDate.month = that.month;
+                          that.selectDate.day = parseInt(this.firstChild.innerHTML);
+                          that.render();
+                          // 用户已经选择
+                          that.isSelectDate = true;
+                        }
+                        isStateClick = !isStateClick;
+                    }
+                    var minVal = compareDate(that.selectDate,that.selectDate2).minDateChar;
+                    var maxVal = compareDate(that.selectDate,that.selectDate2).maxDateChar;
+                    $(that.nodeid + ' .date-input input').get(0).value = minVal + '~'+maxVal;
+                }else{
+                  that.selectDate.year = that.year;
+                  that.selectDate.month = that.month;
+                  that.selectDate.day = parseInt(this.firstChild.innerHTML);
+                  that.render();
+                  // 隐藏日历
+                  $(that.nodeid + ' .date').css({"display":"none"});
+                  // 设置 输入框的值
+                  $(that.nodeid + ' .date-input input').get(0).value = that.setAndGetDate().getDate();
+                  // 用户已经选择
+                  this.isSelectDate = true;
+                }
+
               }else if(this.firstChild.getAttribute('class') === 'unclickable'){
                 alert('该日期不可选');
               }
@@ -160,6 +202,7 @@
           // 查找获取的页面元素的祖先元素
           var parNode = $(tar).parentsUntil(that.nodeid);
           // 没有祖先元素 说明是点击空白处
+          if (tar.className === 'clickable') return;
           if (!parNode.length)  $(that.nodeid + ' .date').css({"display":"none"});
           for (var i = 0; i < parNode.length; i++) {
             // 祖先元素 是body 证明 不是 当前日历组件
@@ -225,14 +268,23 @@
               this.td[g].innerHTML = "<span class='elseMonth'>"+(num++)+"</span>";
           }
            // 添加 选择的天 显示效果
-          if (this.year === this.selectDate.year && this.month === this.selectDate.month) {
+          if (this.year === this.selectDate.year && this.month === this.selectDate.month)
             if (this.selectDate.day) {
               var selectDate = calculate(this.selectDate.year,this.selectDate.month,this.selectDate.day);
               this.td[selectDate.whichDay + this.selectDate.day - 1].style.backgroundColor = 'rgb(240, 93, 89)';
               this.td[selectDate.whichDay + this.selectDate.day - 1].style.color = 'rgb(226, 231, 250)';
             }
-
+          // 启用时间段是 渲染第二次选择
+          if (this.isTimeBucket) {
+            if (this.year === this.selectDate2.year && this.month === this.selectDate2.month)
+              if (this.selectDate2.day) {
+                var selectDate2 = calculate(this.selectDate2.year,this.selectDate2.month,this.selectDate2.day);
+                this.td[selectDate2.whichDay + this.selectDate2.day - 1].style.backgroundColor = 'rgb(240, 93, 89)';
+                this.td[selectDate2.whichDay + this.selectDate2.day - 1].style.color = 'rgb(226, 231, 250)';
+              }
+              this.addTimeBucketCss();
           }
+
         },
         setAndGetDate:function () {
           // 设置 和获取 日期接口
@@ -297,8 +349,34 @@
                 return that.isSelectDate;
             }
           };
-
+        },
+        addTimeBucketCss:function () {
+            var min = compareDate(this.selectDate,this.selectDate2).minDate;
+            var max = compareDate(this.selectDate,this.selectDate2).maxDate;
+            var tdNode = $(this.nodeid + ' .date table .clickable');
+            for (var i = 0; i < tdNode.length; i++) {
+               var tdNodeDate = new Date(this.year,this.month,parseInt(tdNode[i].innerHTML));
+              if (tdNodeDate > min && tdNodeDate < max) {
+                tdNode[i].style.backgroundColor = 'rgba(71, 166, 227, 0.61)';
+                tdNode[i].style.color = 'rgb(226, 231, 250)';
+              }
+            }
+        },
+        setTimeBucket:function () {
+          // 设置时间段 接口
+          return {
+              setIsTimeBucket:function (newIsTimeBucket) {
+                  this.isTimeBucket = newIsTimeBucket || false;         // 设置是否启用时间段
+              },
+              setMinTimeBucket:function (newMinTimeBucket) {
+                  this.minTimeBucket = newMinTimeBucket || 2;           //  设置时间段最小跨度
+              },
+              setMaxTimeBucket:function (newMaxTimeBucket) {
+                  this.maxTimeBucket = newMaxTimeBucket || 90;          //  设置时间段最大跨度
+              },
+          };
         }
+
 
    };
    window.DatePicker = DatePicker;//把组件对象绑定到全局
@@ -327,4 +405,27 @@ function calculate(year,month,day){
           whichDay:whichDay,
     };
     return message;
+}
+
+
+/**
+ * 时间对象比较函数
+ */
+function compareDate(d1,d2) {
+  var temp1 = new Date(d1.year,d1.month,d1.day);
+  var temp2 = new Date(d2.year,d2.month,d2.day);
+  var max,min;
+  if (temp1 > temp2) {
+      max = temp1;
+      min = temp2;
+  }else {
+      max = temp2;
+      min = temp1;
+  }
+  return {
+    minDate:min,
+    maxDate:max,
+    minDateChar:min.getFullYear()+'-'+min.getMonth()+'-'+min.getDate(),
+    maxDateChar:max.getFullYear()+'-'+max.getMonth()+'-'+max.getDate()
+  };
 }
