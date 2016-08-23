@@ -1,25 +1,29 @@
 /**
  * [日历组件]
- * 调用示例(配置说明)：
- * // 创建 日历
- * var date = new DatePicker({
- *        id:"date",                   // 日历组件 dom class（必须否则无法 创建 由于用的是jQuery选择器 id请+ # class + .）
- *        maxDate:'2016/8/31',         // 可选 时间段最大时间（非必选，注意格式一定要相同）
- *         minDate:'2016/8/1'          // 可选 时间段最小时间（非必选，注意格式一定要相同）
- *    });
- *  // 设置日历时间 （注意：设置参数一定要和下面一样）
- *  date.setAndGetDate().setDate(
- *      {
- *        year:2016,
- *        month:8,
- *        day:1
- *      }
- *    );
- *  // 获取日历时间
- *  date.setAndGetDate().getDate();      // yyyy-mm-dd
- *  // 获取用户选择状态
- * date.setAndGetDate().getIsSelectDate()   // false or true
- *
+ ------------------调用示例(配置说明)-----------------------------------
+ // 创建 日历
+var date = new DatePicker({
+      id:"date",                  // 日历组件 dom class（必须否则无法 创建 由于用的是jQuery选择器 id请+ # class + .）
+      maxDate:'2016/8/31',        // 可选 时间段最大时间（非必选，注意格式一定要相同）
+      minDate:'2016/8/1'          // 可选 时间段最小时间（非必选，注意格式一定要相同）
+      isTimeBucket:true            // 设置 是否启用时间段 （ true | false）
+  });
+ */
+
+/*  ----------------接口说明----------------------------------
+// 设置日历时间 （注意：设置参数一定要和下面一样）
+date.setAndGetDate().setDate({
+       year:2016,
+        month:8,
+        day:1
+     });
+ // 获取日历时间
+ date.setAndGetDate().getDate();      // yyyy-mm-dd
+  // 获取用户选择状态
+date.setAndGetDate().getIsSelectDate()   // false or true
+date.setTimeBucket().setIsTimeBucket(true);           // 设置 是否启用时间段 （ true | false）
+date.setTimeBucket().setMinTimeBucket(3);             // 设置 时间段最小跨度 (大于0整数)
+date.setTimeBucket().setMaxTimeBucket(5);             // 设置 时间段最大跨度 (大于0整数)
  */
 
 
@@ -28,35 +32,47 @@
         // 创建日历组件的 页面元素 id
         if (!options.id) return;
         this.nodeid = options.id;
-        this.td = []; // 存储 dom 的td 对象
+        this.td     = []; // 存储 dom 的td 对象
         // 初始化时日历当前时间
-        this.year = new Date().getFullYear(); // 当前时间 年
-        this.month = new Date().getMonth() + 1; // 当前时间 月
-        this.day = new Date().getDate(); // 当前时间 日
+        this.year   = new Date().getFullYear();   // 当前时间 年
+        this.month  = new Date().getMonth() + 1;  // 当前时间 月
+        this.day    = new Date().getDate();       // 当前时间 日
 
         this.isSelectDate = false; // 用户现在状态
-        this.isTimeBucket = options.isTimeBucket || false; // 是否启用时间段
-        this.minTimeBucket = options.minTimeBucket || 2; //  时间段最小跨度
-        this.maxTimeBucket = options.maxTimeBucket || 90; //  时间段最大跨度
+        // 是否启用时间段
+
+        if (options.isTimeBucket && typeof options.isTimeBucket === 'boolean') {
+            this.isTimeBucket = options.isTimeBucket;
+        } else {
+            this.isTimeBucket = false;
+        }
+
+        var regularVal = /^[1-9]\d*$/; // 非0正整数
+        //  时间段最小跨度
+        this.minTimeBucket = regularVal.test(options.minTimeBucket) ?
+                                                      options.minTimeBucket : 2;
+        //  时间段最大跨度
+        this.maxTimeBucket = regularVal.test(options.maxTimeBucket) ?
+                                                    options.maxTimeBucket : 60;
         this.selectDate = { //保存当前选择 日期(时间选择时 第一次选择时间)
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            day: new Date().getDate()
+            year  : new Date().getFullYear(),
+            month : new Date().getMonth() + 1,
+            day   : new Date().getDate()
         };
         this.selectDate2 = { //时间选择时 保存第二次选择时间
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            day: new Date().getDate()
+            year  : new Date().getFullYear(),
+            month : new Date().getMonth() + 1,
+            day   : new Date().getDate()
         };
         // 可选日期范围  最大日期
-        if (options.maxDate) {
+        if (options.maxDate && typeof options.maxDate === 'string') {
             this.maxDate = new Date(options.maxDate);
         } else {
             // 默认 为空
             this.maxDate = null;
         }
         // 可选日期范围  最大日期
-        if (options.minDate) {
+        if (options.minDate && typeof options.minDate === 'string') {
             this.minDate = new Date(options.minDate);
         } else {
             // 默认 为空
@@ -75,17 +91,18 @@
             // 创建dom对象或者创建html片段或者创建template
             //  添加 年和月
             //  添加日历输入框
-            $(this.nodeid).append("<div class='date-input'><i class='date-iconfont'>&#xe600;</i>" +
-                "<input type='text' name='date-input'></div>");
+            $(this.nodeid).append("<div class='date-input'>" +
+                                  "<i class='date-iconfont'>&#xe600;</i>" +
+                                  "<input type='text' name='date-input'></div>");
             //  添加日历dom
             $(this.nodeid).append("<div class='date'></div>");
             // 初始化时隐藏日历组件
-            $(this.nodeid + ' .date').css({
-                "display": "none"
-            });
+            $(this.nodeid + ' .date').css({"display": "none"});
             $(this.nodeid + ' .date').append("<div class='head'>" +
-                "<div class='year'><i class='year-left'><</i><span class='year-data'>年</span><i class='year-right'>></i></div> " +
-                "<div class='month'><i class='month-left'><</i><span class='month-data'>月</span><i class='month-right'>></i></div></div>");
+                                              "<div class='year'><i class='year-left'><</i>" +
+                                              "<span class='year-data'>年</span><i class='year-right'>></i></div> " +
+                                              "<div class='month'><i class='month-left'><</i>" +
+                                              "<span class='month-data'>月</span><i class='month-right'>></i></div></div>");
             $(this.nodeid + ' .date').append("<table></table>");
             //  添加星期
             $(this.nodeid + ' .date table').append("<tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>");
@@ -103,7 +120,6 @@
         bindEvents: function() {
             //事件绑定
             var that = this;
-
             //  年减少
             $(this.nodeid + ' .date .head .year-left').click(function() {
                 if (that.year > 0) {
@@ -143,33 +159,62 @@
                 if (this.firstChild.getAttribute('class') === 'clickable') {
                     //  判断是否启动时间段
                     if (that.isTimeBucket) {
-                        var tempChar = that.year + '/' + that.month + '/' + this.firstChild.innerHTML;
-                        var selectDateChar = that.selectDate.year + '/' + that.selectDate.month + '/' + that.selectDate.day;
-                        var selectDateChar2 = that.selectDate2.year + '/' + that.selectDate2.month + '/' + that.selectDate2.day;
+                        var tempChar = that.year + '/' +
+                                       that.month + '/' +
+                                       this.firstChild.innerHTML;
+                        var selectDateChar = that.selectDate.year + '/' +
+                                             that.selectDate.month + '/' +
+                                             that.selectDate.day;
+                        var selectDateChar2 = that.selectDate2.year + '/' +
+                                              that.selectDate2.month + '/' +
+                                              that.selectDate2.day;
                         if (isStateClick) { // 第一次选择
                             if (tempChar !== selectDateChar && tempChar !== selectDateChar2) {
-                                that.selectDate2.year = that.year;
-                                that.selectDate2.month = that.month;
-                                that.selectDate2.day = parseInt(this.firstChild.innerHTML);
-                                that.render();
-                                // 用户已经选择
-                                that.isSelectDate = true;
+                                var isisTimeSpanVal = isTimeSpan(selectDateChar,
+                                                                      tempChar,
+                                                            that.minTimeBucket,
+                                                            that.maxTimeBucket);
+                                if (!isisTimeSpanVal) {
+                                    that.selectDate2.year  = that.year;
+                                    that.selectDate2.month = that.month;
+                                    that.selectDate2.day   = parseInt(this.firstChild.innerHTML);
+                                    that.render();
+                                    isStateClick = !isStateClick;
+                                } else {
+                                    alert(isisTimeSpanVal);
+                                }
                             }
-                            isStateClick = !isStateClick;
                         } else { // 第二次选择
                             if (tempChar !== selectDateChar && tempChar !== selectDateChar2) {
-                                that.selectDate.year = that.year;
+                                // 第二次选择清空之前的选择
+                                that.selectDate = {
+                                    year: null,
+                                    month: null,
+                                    day: null
+                                };
+                                that.selectDate2 = {
+                                    year: null,
+                                    month: null,
+                                    day: null
+                                };
+                                $(that.nodeid + ' .date-input input').get(0).value = '';
+                                that.selectDate.year  = that.year;
                                 that.selectDate.month = that.month;
-                                that.selectDate.day = parseInt(this.firstChild.innerHTML);
+                                that.selectDate.day   = parseInt(this.firstChild.innerHTML);
                                 that.render();
-                                // 用户已经选择
-                                that.isSelectDate = true;
                             }
                             isStateClick = !isStateClick;
                         }
-                        var minVal = compareDate(that.selectDate, that.selectDate2).minDateChar;
-                        var maxVal = compareDate(that.selectDate, that.selectDate2).maxDateChar;
-                        $(that.nodeid + ' .date-input input').get(0).value = minVal + '~' + maxVal;
+
+
+                        if (that.selectDate2.year && that.selectDate.year) {
+                            // 用户已经选择
+                            that.isSelectDate = true;
+                            var minVal = compareDate(that.selectDate, that.selectDate2).minDateChar;
+                            var maxVal = compareDate(that.selectDate, that.selectDate2).maxDateChar;
+                            $(that.nodeid + ' .date-input input').get(0).value = minVal + '~' + maxVal;
+                        }
+
                     } else {
                         that.selectDate.year = that.year;
                         that.selectDate.month = that.month;
@@ -260,7 +305,8 @@
                 }
                 // minDate和maxDate 都不为空
                 if (this.minDate && this.maxDate) {
-                    if (new Date(this.year, this.month - 1, i + 1) <= this.maxDate && new Date(this.year, this.month - 1, i + 1) >= this.minDate) {
+                    if (new Date(this.year, this.month - 1, i + 1) <= this.maxDate &&
+                        new Date(this.year, this.month - 1, i + 1) >= this.minDate) {
                         this.td[i + nowDate.whichDay].innerHTML = "<span class='clickable'>" + (i + 1) + "</span>";
                     } else {
                         this.td[i + nowDate.whichDay].innerHTML = "<span class='unclickable'>" + (i + 1) + "</span>";
@@ -273,7 +319,8 @@
             }
             // 添加上个月 天数
             for (var k = 0; k < nowDate.whichDay; k++) {
-                this.td[nowDate.whichDay - k - 1].innerHTML = "<span class='elseMonth'>" + (nowDate.lastMonthLen - k) + "</span>";
+                this.td[nowDate.whichDay - k - 1].innerHTML = "<span class='elseMonth'>" +
+                                                              (nowDate.lastMonthLen - k) + "</span>";
             }
             // 添加下个月 天数
             for (var g = nowDate.whichDay + nowDate.monthLen, num = 1; g < this.td.length; g++) {
@@ -294,7 +341,10 @@
                         this.td[selectDate2.whichDay + this.selectDate2.day - 1].style.backgroundColor = 'rgb(240, 93, 89)';
                         this.td[selectDate2.whichDay + this.selectDate2.day - 1].style.color = 'rgb(226, 231, 250)';
                     }
-                this.addTimeBucketCss();
+                    // 如果开始时间和结束时间都有值才渲染 时间段
+                if (this.selectDate2.year && this.selectDate.year) {
+                    this.addTimeBucketCss();
+                }
             }
 
         },
@@ -367,7 +417,7 @@
             var max = compareDate(this.selectDate, this.selectDate2).maxDate;
             var tdNode = $(this.nodeid + ' .date table .clickable');
             for (var i = 0; i < tdNode.length; i++) {
-                var tdNodeDate = new Date(this.year, this.month, parseInt(tdNode[i].innerHTML));
+                var tdNodeDate = new Date(this.year, this.month - 1, parseInt(tdNode[i].innerHTML));
                 if (tdNodeDate > min && tdNodeDate < max) {
                     tdNode[i].style.backgroundColor = 'rgba(71, 166, 227, 0.61)';
                     tdNode[i].style.color = 'rgb(226, 231, 250)';
@@ -376,15 +426,24 @@
         },
         setTimeBucket: function() {
             // 设置时间段 接口
+            var that = this;
+            var regularVal = /^[1-9]\d*$/; // 非0正整数
             return {
                 setIsTimeBucket: function(newIsTimeBucket) {
-                    this.isTimeBucket = newIsTimeBucket || false; // 设置是否启用时间段
+                    // 设置是否启用时间段
+                    if (newIsTimeBucket && typeof newIsTimeBucket === 'boolean') {
+                        that.isTimeBucket = newIsTimeBucket;
+                    } else {
+                        that.isTimeBucket = false;
+                    }
                 },
                 setMinTimeBucket: function(newMinTimeBucket) {
-                    this.minTimeBucket = newMinTimeBucket || 2; //  设置时间段最小跨度
+                    //  时间段最小跨度
+                    that.minTimeBucket = regularVal.test(newMinTimeBucket) ? newMinTimeBucket : 2;
                 },
                 setMaxTimeBucket: function(newMaxTimeBucket) {
-                    this.maxTimeBucket = newMaxTimeBucket || 90; //  设置时间段最大跨度
+                    //  时间段最大跨度
+                    that.maxTimeBucket = regularVal.test(newMaxTimeBucket) ? newMaxTimeBucket : 60;
                 },
             };
         }
@@ -424,8 +483,8 @@ function calculate(year, month, day) {
  * 时间对象比较函数
  */
 function compareDate(d1, d2) {
-    var temp1 = new Date(d1.year, d1.month, d1.day);
-    var temp2 = new Date(d2.year, d2.month, d2.day);
+    var temp1 = new Date(d1.year, d1.month - 1, d1.day);
+    var temp2 = new Date(d2.year, d2.month - 1, d2.day);
     var max, min;
     if (temp1 > temp2) {
         max = temp1;
@@ -437,7 +496,25 @@ function compareDate(d1, d2) {
     return {
         minDate: min,
         maxDate: max,
-        minDateChar: min.getFullYear() + '-' + min.getMonth() + '-' + min.getDate(),
-        maxDateChar: max.getFullYear() + '-' + max.getMonth() + '-' + max.getDate()
+        minDateChar: min.getFullYear() + '-' + (min.getMonth() + 1) + '-' + min.getDate(),
+        maxDateChar: max.getFullYear() + '-' + (max.getMonth() + 1) + '-' + max.getDate()
     };
+
+}
+
+/**
+ * 判断 时间选择是否 符合跨度要求
+ */
+function isTimeSpan(v1, v2, min, max) {
+    var d1 = new Date(v1),
+        d2 = new Date(v2);
+    var minTimeSpan = (min - 2) * 86400000;
+    var maxTimeSpan = max * 86400000;
+    if (Math.abs(d1 - d2) <= minTimeSpan) {
+        return '时间区间最小不要小于' + min + '天';
+    } else if (Math.abs(d1 - d2) >= maxTimeSpan) {
+        return '时间区间最大不要大于' + max + '天';
+    } else {
+        return false;
+    }
 }
