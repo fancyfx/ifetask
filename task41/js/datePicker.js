@@ -38,7 +38,7 @@
           month:new Date().getMonth() + 1,
           day:new Date().getDate()
       };
-      this.isSelectDate = false;                // 用户现在状态
+      this.isSelectDate = false;             // 用户现在状态
       // 可选日期范围  最大日期
       if (options.maxDate ) {
         this.maxDate = new Date(options.maxDate);
